@@ -7,6 +7,17 @@ export interface GetAllOptions {
     offset?: number;
 }
 
+export interface AnimalUpdateOptions {
+    id: string;
+    name?:string;
+    species?:string;
+    weight?:number;
+    height?:number;
+    last_medical_description?:string;
+    id_space?:string;
+}
+
+
 export class AnimalController {
     
     private connection: Connection;
@@ -90,6 +101,53 @@ export class AnimalController {
             console.error(err); // log dans un fichier c'est mieux
             return null;
         }
+    }
+    async removeById(id: string): Promise<boolean> {
+        try {
+            const res = await this.connection.execute(`DELETE FROM Animal WHERE id = ${escape(id)}`);
+            const headers = res[0] as ResultSetHeader;
+            return headers.affectedRows === 1;
+        } catch (err) {
+            console.error(err); // log dans un fichier c'est mieux
+            return false;
+        }
+    }
+
+    async update(options: AnimalUpdateOptions): Promise<Animal | null> {
+        const setClause: string[] = [];
+        const params = [];
+        if(options.name !== undefined) {
+            setClause.push("name = ?");
+            params.push(options.name);
+        }
+        if(options.species !== undefined) {
+            setClause.push("species = ?");
+            params.push(options.species);
+        }
+        if(options.weight !== undefined) {
+            setClause.push("weight = ?");
+            params.push(options.weight);
+        }
+        if(options.height !== undefined) {
+            setClause.push("height = ?");
+            params.push(options.height);
+        }
+        if(options.last_medical_description !== undefined) {
+            setClause.push("last_medical_description = ?");
+            params.push(options.last_medical_description);
+        }
+        if(options.id_space !== undefined) {
+            setClause.push("id_space = ?");
+            params.push(options.id_space);
+        }
+        
+        params.push(options.id);
+        const res = await this.connection.execute(`UPDATE Animal SET ${setClause.join(", ")} WHERE id = ?`, params);
+        const headers = res[0] as ResultSetHeader;
+        if(headers.affectedRows === 1) {
+            return this.getById(options.id);
+        }
+        return null;
     }
 
 }

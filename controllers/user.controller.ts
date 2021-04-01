@@ -7,6 +7,16 @@ export interface GetAllOptions {
     offset?: number;
 }
 
+export interface UserUpdateOptions {
+    id: string;
+    name?: string;
+    firstname?: string;
+    mail?: string;
+    phone?: string;
+    admin?: string;
+}
+
+
 export class UserController {
     private connection: Connection;
 
@@ -85,6 +95,49 @@ export class UserController {
         } catch(err) {
             console.error(err); // log dans un fichier c'est mieux
             return null;
+        }
+    }
+
+    async update(options: UserUpdateOptions): Promise<User | null> {
+        const setClause: string[] = [];
+        const params = [];
+        if(options.name !== undefined) {
+            setClause.push("name = ?");
+            params.push(options.name);
+        }
+        if(options.firstname !== undefined) {
+            setClause.push("firstname = ?");
+            params.push(options.firstname);
+        }
+        if(options.mail !== undefined) {
+            setClause.push("mail = ?");
+            params.push(options.mail);
+        }
+        if(options.phone !== undefined) {
+            setClause.push("phone = ?");
+            params.push(options.phone);
+        }
+        if(options.admin !== undefined) {
+            setClause.push("admin = ?");
+            params.push(options.admin);
+        }
+        
+        params.push(options.id);
+        const res = await this.connection.execute(`UPDATE Animal SET ${setClause.join(", ")} WHERE id = ?`, params);
+        const headers = res[0] as ResultSetHeader;
+        if(headers.affectedRows === 1) {
+            return this.getById(options.id);
+        }
+        return null;
+    }
+    async removeById(id: string): Promise<boolean> {
+        try {
+            const res = await this.connection.execute(`DELETE FROM User WHERE id = ${escape(id)}`);
+            const headers = res[0] as ResultSetHeader;
+            return headers.affectedRows === 1;
+        } catch (err) {
+            console.error(err); // log dans un fichier c'est mieux
+            return false;
         }
     }
 

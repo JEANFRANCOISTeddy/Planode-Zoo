@@ -9,6 +9,7 @@ export interface ISpaceProps {
     hours: string;
     handicapped: boolean;
     statut: boolean;
+    last_space_description:string;
 }
 
 // SQL Table Space
@@ -23,6 +24,7 @@ export class Space implements ISpaceProps {
     hours: string;
     handicapped: boolean;
     statut: boolean;
+    last_space_description:string;
 
     constructor(props: ISpaceProps) {
         this.id = props.id;
@@ -35,5 +37,6 @@ export class Space implements ISpaceProps {
         this.hours = props.hours;
         this.handicapped = props.handicapped;
         this.statut = props.statut;
+        this.last_space_description = props.last_space_description;
     }
 }
