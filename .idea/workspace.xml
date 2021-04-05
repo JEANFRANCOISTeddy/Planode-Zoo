@@ -2,33 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aa550674-f3e3-41de-b720-40fce46bfc66" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/server/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/carnets/entretien.carnet.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/carnets/traitement.carnet.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/db.config.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/animal.controller.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/pass.controller.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/space.controller.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/user.controller.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/zoo.controller.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/animal.model.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/pass.model.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/space.model.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/user.model.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/zoo.model.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/animal.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/pass.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/space.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/user.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/zoo.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,8 +67,16 @@
       <workItem from="1617298777259" duration="12000" />
       <workItem from="1617442863301" duration="5157000" />
       <workItem from="1617613386093" duration="4489000" />
-      <workItem from="1617618420803" duration="394000" />
+      <workItem from="1617618420803" duration="679000" />
     </task>
+    <task id="LOCAL-00001" summary="Set up to start coding, template to create users in the database">
+      <created>1617618936358</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1617618936358</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -123,5 +105,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Set up to start coding, template to create users in the database" />
+    <option name="LAST_COMMIT_MESSAGE" value="Set up to start coding, template to create users in the database" />
   </component>
 </project>
