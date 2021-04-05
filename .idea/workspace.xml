@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="aa550674-f3e3-41de-b720-40fce46bfc66" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/server/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/carnets/entretien.carnet.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/carnets/traitement.carnet.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/db.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/animal.controller.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/pass.controller.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/space.controller.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/user.controller.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/zoo.controller.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/animal.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/pass.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/space.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/user.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/zoo.model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/animal.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/pass.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/space.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/user.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/zoo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/tsconfig.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1qZsLXwRhzir3KeYsoURH0N20NU" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../node_projet/ConnectAPI 2" />
+    <property name="nodejs_interpreter_path" value="node" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="C:\Users\tjeanfrancois\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\203.7717.59\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Planode-Zoo\server" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.start">
+    <configuration name="Unnamed" type="NodeJSConfigurationType" nameIsGenerated="true" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
+    <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/server/package.json" />
+      <command value="start" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Node.js.Unnamed" />
+      <item itemvalue="npm.start" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="aa550674-f3e3-41de-b720-40fce46bfc66" name="Default Changelist" comment="" />
+      <created>1617298390597</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1617298390597</updated>
+      <workItem from="1617298393706" duration="28000" />
+      <workItem from="1617298777259" duration="12000" />
+      <workItem from="1617442863301" duration="5157000" />
+      <workItem from="1617613386093" duration="4489000" />
+      <workItem from="1617618420803" duration="394000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="develop" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>
