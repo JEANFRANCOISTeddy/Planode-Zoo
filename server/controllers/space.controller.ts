@@ -54,15 +54,6 @@ export class SpaceController {
     }
 
     /**
-     * Modify a space created
-     */
-    /*public async update(values: object, options: object): Promise<Array<number | SpaceInstance[]>> {
-        return this.Space.update(
-            { ...values }, { }
-        );
-    }*/
-
-    /**
      * Delete space from specify id
      */
     public async deleteById(options: object): Promise<number> {
