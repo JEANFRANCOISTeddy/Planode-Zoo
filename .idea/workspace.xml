@@ -2,7 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aa550674-f3e3-41de-b720-40fce46bfc66" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/space.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/space.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/db.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/db.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/space.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/space.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/user.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/user.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/space.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/space.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/user.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,10 +38,10 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../node_projet/ConnectAPI 2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Angular" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="ts.external.directory.path" value="C:\Users\tjeanfrancois\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\203.7717.59\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.external.directory.path" value="F:\Planode-Zoo\server\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -67,7 +77,11 @@
       <workItem from="1617298777259" duration="12000" />
       <workItem from="1617442863301" duration="5157000" />
       <workItem from="1617613386093" duration="4489000" />
-      <workItem from="1617618420803" duration="679000" />
+      <workItem from="1617618420803" duration="1129000" />
+      <workItem from="1617622283731" duration="14000" />
+      <workItem from="1617629452709" duration="14022000" />
+      <workItem from="1617687993847" duration="5540000" />
+      <workItem from="1617714270184" duration="3440000" />
     </task>
     <task id="LOCAL-00001" summary="Set up to start coding, template to create users in the database">
       <created>1617618936358</created>
@@ -76,7 +90,14 @@
       <option name="project" value="LOCAL" />
       <updated>1617618936358</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Update .gitignore">
+      <created>1617619118798</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1617619118798</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -93,7 +114,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="develop" />
+                        <option value="features/creationSpaceCRUD" />
                       </list>
                     </value>
                   </entry>
@@ -108,6 +129,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Set up to start coding, template to create users in the database" />
-    <option name="LAST_COMMIT_MESSAGE" value="Set up to start coding, template to create users in the database" />
+    <MESSAGE value="Update .gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update .gitignore" />
   </component>
 </project>

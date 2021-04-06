@@ -3,6 +3,9 @@ import {UserController} from '../controllers/user.controller';
 
 const userRouter = express.Router();
 
+/**
+ * Creation of new user
+ */
 userRouter.post("/create", async function(req, res) {
     const lastname = req.body.lastname;
     const firstname = req.body.firstname;

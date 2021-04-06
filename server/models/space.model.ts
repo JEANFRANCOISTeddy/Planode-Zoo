@@ -1,3 +1,13 @@
+import {
+    Sequelize,
+    Optional,
+    Model,
+    DataTypes,
+    ModelCtor,
+    BelongsToSetAssociationMixin,
+    HasManyGetAssociationsMixin, HasManyAddAssociationMixin
+} from "sequelize";
+
 export interface ISpaceProps {
     id?: string;
     name: string;
@@ -5,38 +15,58 @@ export interface ISpaceProps {
     images: string;
     type: string;
     capacity: string;
-    time: string;
-    hours: string;
-    handicapped: boolean;
-    statut: boolean;
-    last_space_description:string;
+    time: string; // opening duracy
+    hours: string; // opening hours
+    handicapped: boolean; // true --> space has handicapped access
+    status: boolean; // true --> maintenance | false --> operational
+    last_space_description:string; 
 }
 
-// SQL Table Space
-export class Space implements ISpaceProps {
-    id?: string;
-    name: string;
-    description: string;
-    images: string;
-    type: string;
-    capacity: string;
-    time: string;
-    hours: string;
-    handicapped: boolean;
-    statut: boolean;
-    last_space_description:string;
+export interface ISpaceCreationProps extends Optional<ISpaceProps, "id"> {}
 
-    constructor(props: ISpaceProps) {
-        this.id = props.id;
-        this.name = props.name;
-        this.description = props.description;
-        this.images = props.images;
-        this.type = props.type;
-        this.capacity = props.capacity;
-        this.time = props.time;
-        this.hours = props.hours;
-        this.handicapped = props.handicapped;
-        this.statut = props.statut;
-        this.last_space_description = props.last_space_description;
-    }
+export interface SpaceInstance extends Model<ISpaceProps, ISpaceCreationProps>, ISpaceProps {}
+
+export default function(sequelize: Sequelize): ModelCtor<SpaceInstance> {
+    return sequelize.define<SpaceInstance>("Space", {
+        id: {
+            type: DataTypes.BIGINT,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        name: {
+            type: DataTypes.STRING
+        },
+        description: {
+            type: DataTypes.STRING
+        },
+        images: {
+            type: DataTypes.STRING
+        },
+        type: {
+            type: DataTypes.STRING
+        },
+        capacity: {
+            type: DataTypes.STRING
+        },
+        time: {
+            type: DataTypes.STRING
+        },
+        hours: {
+            type: DataTypes.STRING
+        },
+        handicapped: {
+            type: DataTypes.BOOLEAN
+        },
+        status: {
+            type: DataTypes.BOOLEAN
+        },
+        last_space_description: {
+            type: DataTypes.STRING
+        }
+    }, {
+        freezeTableName: true,
+        underscored: true,
+        paranoid: true,
+        timestamps: true
+    });
 }

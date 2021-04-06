@@ -4,7 +4,7 @@ Gestionnaire d'un Zoo
 
 ## Sujet
 
-+ Gestion des espaces CRUD (nom, description, images, type, capacité, durée, horaires d’ouverture, accès
++ ✅ Gestion des espaces CRUD (nom, description, images, type, capacité, durée, horaires d’ouverture, accès
 handicapé)
 
 + Un espace peut être mis en maintenance à tout moment, uniquement par un utilisateur admin. Un carnet
