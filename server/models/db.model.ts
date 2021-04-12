@@ -2,6 +2,7 @@ import {ModelCtor, Sequelize} from "sequelize";
 import userCreator, {UserInstance} from "./user.model";
 import spaceCreator, {SpaceInstance} from "./space.model";
 import sessionCreator, {SessionInstance} from "./session.model";
+import passCreator, {PassInstance} from "./pass.model";
 import {Dialect} from "sequelize/types/lib/sequelize";
 
 export interface SequelizeManagerProps {
@@ -9,6 +10,7 @@ export interface SequelizeManagerProps {
     User: ModelCtor<UserInstance>;
     Space: ModelCtor<SpaceInstance>;
     Session: ModelCtor<SessionInstance>;
+    Pass: ModelCtor<PassInstance>;
 }
 
 export class SequelizeManager implements SequelizeManagerProps {
@@ -19,6 +21,7 @@ export class SequelizeManager implements SequelizeManagerProps {
     User: ModelCtor<UserInstance>;
     Space: ModelCtor<SpaceInstance>;
     Session: ModelCtor<SessionInstance>;
+    Pass: ModelCtor<PassInstance>;
 
     public static async getInstance(): Promise<SequelizeManager> {
         if(SequelizeManager.instance === undefined) {
@@ -41,7 +44,8 @@ export class SequelizeManager implements SequelizeManagerProps {
             sequelize,
             User: userCreator(sequelize),
             Space: spaceCreator(sequelize),
-            Session: sessionCreator(sequelize)
+            Session: sessionCreator(sequelize),
+            Pass: passCreator(sequelize),
         }
         SequelizeManager.associate(managerProps);
         await sequelize.sync();
@@ -58,5 +62,6 @@ export class SequelizeManager implements SequelizeManagerProps {
         this.User = props.User;
         this.Space = props.Space;
         this.Session = props.Session;
+        this.Pass = props.Pass;
     }
 }

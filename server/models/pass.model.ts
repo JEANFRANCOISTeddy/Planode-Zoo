@@ -1,3 +1,13 @@
+import {
+    Sequelize,
+    Optional,
+    Model,
+    DataTypes,
+    ModelCtor,
+    BelongsToSetAssociationMixin,
+    HasManyGetAssociationsMixin, HasManyAddAssociationMixin
+} from "sequelize";
+
 export interface IPassProps {
       id?:string;
       name:string;
@@ -7,22 +17,36 @@ export interface IPassProps {
       day_end_validation : string
 }
 
-// SQL Table Pass
-export class Pass implements IPassProps {
-    id?:string;
-    name:string;
-    price:number;
-    route?:Array<object>;
-    day_start_validation : string;
-    day_end_validation : string
+export interface IPassCreationProps extends Optional<IPassProps, "id"> {}
 
-    constructor(props: IPassProps) {
-        this.id = props.id;
-        this.name = props.name;
-        this.price = props.price;
-        this.route = props.route;
-        this.day_start_validation = props.day_start_validation;
-        this.day_end_validation = props.day_end_validation;
+export interface PassInstance extends Model<IPassProps, IPassCreationProps>, IPassProps {}
 
-    }
+export default function(sequelize: Sequelize): ModelCtor<PassInstance> {
+    return sequelize.define<PassInstance>("Pass", {
+        id: {
+            type: DataTypes.BIGINT,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        name: {
+            type: DataTypes.STRING
+        },
+        price: {
+            type: DataTypes.DOUBLE
+        },
+        route: {
+            type: DataTypes.JSON
+        },
+        day_start_validation: {
+            type: DataTypes.STRING
+        },
+        day_end_validation: {
+            type: DataTypes.STRING
+        }
+    },  {
+        freezeTableName: true,
+        underscored: true,
+        paranoid: true,
+        timestamps: true
+    });
 }
