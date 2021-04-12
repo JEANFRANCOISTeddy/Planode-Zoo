@@ -36,6 +36,25 @@ userRouter.post("/create", async function(req, res) {
     }
 });
 
+/**
+ * Find a user by his id
+ */
+userRouter.get("/:id", async function(req, res) {
+    const requestedId = req.params.id;
+    if(requestedId === null) {
+        res.status(400).end();
+        return;
+    }
+    const userController = await UserController.getInstance();
+    const user = await userController.findById(requestedId);
+    if(user !== null) {
+        res.status(200);
+        res.json(user);
+    } else {
+        res.status(409).end();
+    }
+});
+
 export {
     userRouter
 };

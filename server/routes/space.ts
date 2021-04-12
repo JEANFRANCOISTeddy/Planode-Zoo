@@ -1,6 +1,7 @@
 import express from 'express';
 import {SpaceController} from '../controllers/space.controller';
 
+const chalk = require('chalk');
 const spaceRouter = express.Router();
 
 /**
@@ -20,6 +21,63 @@ spaceRouter.get("/", async function(req, res) {
     } else {
         res.status(409).end();
     }
+});
+
+/**
+ * Read maintenance file
+ */
+spaceRouter.get("/readMaintenanceFile", async function(req, res) {
+    const spaceController = await SpaceController.getInstance();
+    const maintenanceFile = await spaceController.readMaintenanceFile();
+    console.log(maintenanceFile);
+    res.send(maintenanceFile);
+    res.status(200);
+});
+
+/**
+ * Read maintenance file
+ */
+spaceRouter.post("/spaceMaintenanceFile", async function(req, res) {
+    const id = req.body.id;
+    const name = req.body.name;
+    const description = req.body.description;
+    const timeStart = req.body.timeStart;
+    const timeEnd = req.body.timeEnd;
+    const hoursStart = req.body.hoursStart;
+    const hoursEnd = req.body.hoursEnd;
+
+    if(name === undefined || description === undefined || timeStart === undefined || timeEnd === undefined || hoursStart === undefined || hoursEnd === undefined)
+        res.status(403).end();
+
+    const spaceController = await SpaceController.getInstance();
+    const space = await spaceController.spaceMaintenance(
+        id,
+        name,
+        description,
+        timeStart,
+        timeEnd,
+        hoursStart,
+        hoursEnd
+    );
+
+    switch (space) {
+        case 400:
+            res.status(400).end();
+            break;
+        case 401:
+            res.status(401).end();
+            break;
+        case 404:
+            res.status(404).end();
+            break;
+        case 409:
+            res.status(409).end();
+            break;
+        case 200:
+            res.status(201);
+            break;
+    }
+
 });
 
 /**
@@ -73,9 +131,7 @@ spaceRouter.get("/:id", async function(req, res) {
         return;
     }
     const spaceController = await SpaceController.getInstance();
-    const space = await spaceController.findById({
-        where: { id: requestedId }
-    });
+    const space = await spaceController.findById(requestedId);
     if(space !== null) {
         res.status(200);
         res.json(space);
@@ -106,9 +162,7 @@ spaceRouter.put("/update/:id", async function(req, res) {
     const status = req.body.status;
     const last_space_description = req.body.last_space_description;
 
-    const space = await spaceController.findById({
-        where: { id: requestedId }
-    });
+    const space = await spaceController.findById(requestedId);
 
     if(space !== null){
         space.name = req.body.name;

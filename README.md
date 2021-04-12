@@ -7,7 +7,7 @@ Gestionnaire d'un Zoo
 + ✅ Gestion des espaces CRUD (nom, description, images, type, capacité, durée, horaires d’ouverture, accès
 handicapé)
 
-+ Un espace peut être mis en maintenance à tout moment, uniquement par un utilisateur admin. Un carnet
++ ➖ Un espace peut être mis en maintenance à tout moment, uniquement par un utilisateur admin. Un carnet
 d’entretien des espaces doit être mis en place afin de limiter les problèmes : un système permettant de dire
 quel est le meilleur mois pour réparer un espace doit être disponible pour les admins
 
@@ -36,3 +36,9 @@ notre magnifique zoo par espace.
 + Ouverture nocturne du zoo avec PASS Night (par un admin)
 
 + Afin d'accéder à l'API il faudra avoir un compte, seul un employé peut faire des actions pour le parc.
+
+✅ : Tâche terminée
+
+➖ : En cours
+
+❌ : Besoin d'aide

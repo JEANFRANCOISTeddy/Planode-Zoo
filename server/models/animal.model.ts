@@ -5,10 +5,10 @@ export interface IAnimalProps {
     weight:number;
     height:number;
     last_medical_description:string;
+    bestMonth?:string;
     id_space:string;
 }
 
-// SQL Table Animal
 export class Animal implements IAnimalProps {
     id?: string;
     name:string;
@@ -16,6 +16,7 @@ export class Animal implements IAnimalProps {
     weight:number;
     height:number;
     last_medical_description:string;
+    bestMonth?:string;
     id_space:string;
 
     constructor(props: IAnimalProps) {
@@ -25,6 +26,7 @@ export class Animal implements IAnimalProps {
         this.weight = props.weight;
         this.height = props.height;
         this.last_medical_description = props.last_medical_description;
+        this.bestMonth = props.bestMonth;
         this.id_space = props.id_space;
     }
 }

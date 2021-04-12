@@ -1,8 +1,10 @@
 import {ModelCtor} from "sequelize";
 import {IUserCreationProps, UserInstance} from "../models/user.model";
 import {SessionInstance} from "../models/session.model";
-import {SequelizeManager} from "../models";
+import {SequelizeManager, SpaceInstance} from "../models";
 import {compare, hash} from "bcrypt";
+import {SpaceController} from "./space.controller";
+import {spaceRouter} from "../routes/space";
 
 export class UserController {
     User: ModelCtor<UserInstance>;
@@ -28,4 +30,13 @@ export class UserController {
             password: passwordHashed
         });
     }
+
+    /**
+     * Find a space by his id
+     */
+    public async findById(id: string): Promise<UserInstance | null> {
+        return this.User.findOne({ where: { id: id } })
+    }
+
+
 }
