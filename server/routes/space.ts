@@ -29,13 +29,12 @@ spaceRouter.get("/", async function(req, res) {
 spaceRouter.get("/readMaintenanceFile", async function(req, res) {
     const spaceController = await SpaceController.getInstance();
     const maintenanceFile = await spaceController.readMaintenanceFile();
-    console.log(maintenanceFile);
     res.send(maintenanceFile);
     res.status(200);
 });
 
 /**
- * Read maintenance file
+ * Add new maintenance to maintenance file
  */
 spaceRouter.post("/spaceMaintenanceFile", async function(req, res) {
     const id = req.body.id;
@@ -187,7 +186,7 @@ spaceRouter.put("/update/:id", async function(req, res) {
 });
 
 /**
- * Delete space from specify id
+ * Delete space with a specify id
  */
 spaceRouter.delete("/delete/:id", async function(req, res) {
     const requestedId = req.params.id;

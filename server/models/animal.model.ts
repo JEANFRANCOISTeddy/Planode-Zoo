@@ -1,32 +1,56 @@
+import {
+    Sequelize,
+    Optional,
+    Model,
+    DataTypes,
+    ModelCtor,
+    BelongsToSetAssociationMixin,
+    HasManyGetAssociationsMixin, HasManyAddAssociationMixin
+} from "sequelize";
+
 export interface IAnimalProps {
     id?: string;
     name:string;
     species:string;
     weight:number;
     height:number;
-    last_medical_description:string;
+    last_medical_description?:string;
     bestMonth?:string;
-    id_space:string;
 }
 
-export class Animal implements IAnimalProps {
-    id?: string;
-    name:string;
-    species:string;
-    weight:number;
-    height:number;
-    last_medical_description:string;
-    bestMonth?:string;
-    id_space:string;
+export interface IAnimalCreationProps extends Optional<IAnimalProps, "id"> {}
 
-    constructor(props: IAnimalProps) {
-        this.id = props.id;
-        this.name = props.name;
-        this.species = props.species;
-        this.weight = props.weight;
-        this.height = props.height;
-        this.last_medical_description = props.last_medical_description;
-        this.bestMonth = props.bestMonth;
-        this.id_space = props.id_space;
-    }
+export interface AnimalInstance extends Model<IAnimalProps, IAnimalCreationProps>, IAnimalProps {}
+
+export default function(sequelize: Sequelize): ModelCtor<AnimalInstance> {
+    return sequelize.define<AnimalInstance>("Animal", {
+        id: {
+            type: DataTypes.BIGINT,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        name: {
+            type: DataTypes.STRING
+        },
+        species: {
+            type: DataTypes.STRING
+        },
+        weight: {
+            type: DataTypes.DOUBLE
+        },
+        height: {
+            type: DataTypes.DOUBLE
+        },
+        last_medical_description: {
+            type: DataTypes.STRING
+        },
+        bestMonth: {
+            type: DataTypes.STRING
+        }
+    }, {
+        freezeTableName: true,
+        underscored: true,
+        paranoid: true,
+        timestamps: true
+    });
 }

@@ -11,7 +11,7 @@ handicapé)
 d’entretien des espaces doit être mis en place afin de limiter les problèmes : un système permettant de dire
 quel est le meilleur mois pour réparer un espace doit être disponible pour les admins
 
-+ Gestion des animaux par espaces : Il est possible d'avoir différentes espèces dans le même espace. Il doit
++ ➖ Gestion des animaux par espaces : Il est possible d'avoir différentes espèces dans le même espace. Il doit
 impérativement y avoir un carnet de suivi de traitements des animaux édité uniquement par un vétérinaire.
 
 + Gestion hebdomadaire des employés : le zoo ne peut pas ouvrir s'il n'y a PAS au moins 1 personne à

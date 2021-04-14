@@ -1,5 +1,5 @@
 import {ModelCtor} from "sequelize";
-import {ISpaceCreationProps, ISpaceProps, SpaceInstance} from "../models/space.model";
+import {ISpaceCreationProps, ISpaceProps, SpaceInstance} from "../models";
 import {IUserCreationProps, SequelizeManager, UserInstance} from "../models";
 import {compare, hash} from "bcrypt";
 import {ModelStatic, UpdateOptions} from "sequelize/types/lib/model";
@@ -56,7 +56,7 @@ export class SpaceController {
     }
 
     /**
-     * Find a space by his id
+     * Find a space by his name
      */
     public async findByName(name: string): Promise<SpaceInstance | null> {
         return this.Space.findOne({
@@ -104,7 +104,7 @@ export class SpaceController {
         if(space === null)
             return 404;
 
-        if(space.status == true)
+        if(space.status)
             return 409;
         else
             space.status = true; //maintenance == true, !maintenance == false

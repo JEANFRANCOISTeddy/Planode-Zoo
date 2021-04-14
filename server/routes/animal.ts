@@ -1,99 +1,192 @@
 import express from 'express';
 import {AnimalController} from '../controllers/animal.controller';
-import {DatabaseUtils} from "../config/db.config";
+import {spaceRouter} from "./space";
 
-const router = express.Router();
+const chalk = require('chalk');
+const animalRouter = express.Router();
 
-router.get("/", async function(req, res) {
-    const connection = await DatabaseUtils.getConnection();
-    const animalController = new AnimalController(connection);
+/**
+ * Get all animals created
+ */
+animalRouter.get("/", async function(req, res) {
+    const animalController = await AnimalController.getInstance();
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
-    const animalList = await animalController.getAll({
+    const animals = await animalController.findAll({
         limit,
         offset
     });
-    res.json(animalList);
-});
-router.get("/:id", async function(req, res) {
-    const connection = await DatabaseUtils.getConnection();
-    const animalController = new AnimalController(connection);
-    const animal = await animalController.getById(req.params.id);
-    if(animal === null) {
-        res.status(404).end();
+    if(animals !== null) {
+        res.status(200);
+        res.json(animals);
     } else {
-        res.json(animal);
+        res.status(409).end();
+    }
+})
+
+/**
+ * Read treatment file
+ */
+animalRouter.get("/readTreatmentFile", async function(req , res) {
+    const animalController = await AnimalController.getInstance();
+    const treatment = await animalController.readTreatmentFile();
+    res.send(treatment);
+    res.status(200);
+})
+
+/**
+ * Add new treatment to treatment file
+ */
+animalRouter.post("/animalTreatmentFile", async function(req,res) {
+    const id_user = req.body.id_user;
+    const id_animal = req.body.id_animal;
+    const medical_description = req.body.medical_description;
+
+    if(id_user === undefined || id_animal === undefined || medical_description === undefined)
+        res.status(403).end();
+
+    const animalController = await AnimalController.getInstance();
+    const animal = await animalController.animalTreatment(
+        id_user,
+        id_animal,
+        medical_description
+    );
+
+    switch (animal) {
+        case 400:
+            res.status(400).end();
+            break;
+        case 401:
+            res.status(401).end();
+            break;
+        case 404:
+            res.status(404).end();
+            break;
+        case 409:
+            res.status(409).end();
+            break;
+        case 200:
+            res.status(201);
+            break;
     }
 });
 
-router.post("/", async function(req, res) {
+/**
+ * Creation of new animal
+ */
+animalRouter.post("/create", async function(req, res) {
     const name = req.body.name;
     const species = req.body.species;
     const weight = req.body.weight;
     const height = req.body.height;
-    const last_medical_description = req.body.price;
-    const id_space = req.body.price;
-    if(name === undefined || species === undefined || weight === undefined || height === undefined || last_medical_description === undefined || id_space === undefined) {
+    const last_medical_description = req.body.last_medical_description;
+    const bestMonth = req.body.bestMonth;
+
+    if( name === undefined || species === undefined || weight === undefined || height === undefined || last_medical_description === undefined || bestMonth === undefined ){
         res.status(400).end();
         return;
     }
-    const connection = await DatabaseUtils.getConnection();
-    const animalController = new AnimalController(connection);
+    const animalController = await AnimalController.getInstance();
     const animal = await animalController.create({
         name,
         species,
-        weight: Number.parseInt(weight),
-        height: Number.parseFloat(height),
+        weight,
+        height,
         last_medical_description,
-        id_space
-    });
+        bestMonth
+    })
 
-    if(animal === null) {
-        res.status(500).end();
-    } else {
+    if(animal !== null) {
         res.status(201);
         res.json(animal);
+    } else {
+        res.status(409).end();
     }
-
 });
 
-router.put("/:id", async function(req, res) {
-    const id = req.params.id;
-    const name = req.body.name;
-    const weight = req.body.weight;
-    const height = req.body.height;
-    const last_medical_description = req.body.last_medical_description;
-    const id_space = req.body.id_space;
-    if(id === null) {
+/**
+ * Find animal by his id
+ */
+animalRouter.get("/:id", async function(req,res) {
+    const requestedId = req.params.id;
+    if(requestedId === null) {
         res.status(400).end();
         return;
     }
-    const connection = await DatabaseUtils.getConnection();
-    const animalController = new AnimalController(connection);
-    const animal = await animalController.update({
-        id,
-        name,
-        weight: weight !== undefined ? Number.parseInt(weight) : weight,
-        height: height !== undefined ? Number.parseInt(height) : height,
-        last_medical_description,
-        id_space
-    });
-    if(animal === null){
-        res.status(404);
-    }else{
+    const animalController = await AnimalController.getInstance();
+    const animal = await animalController.findById(requestedId);
+    if(animal !== null) {
+        res.status(200);
         res.json(animal);
-    }
-});
-
-router.delete("/id", async function(req, res) {
-    const connection = await DatabaseUtils.getConnection();
-    const animalController = new AnimalController(connection);
-    const success = await animalController.removeById(req.params.id);
-    if(success) {
-        res.status(204).end();
     } else {
-        res.status(404).end();
+        res.status(409).end();
     }
 });
 
-export default router;
+/**
+ * Modify animal created
+ */
+animalRouter.put("/update/:id", async function(req,res) {
+    const animalController = await AnimalController.getInstance();
+    const requestedId = req.params.id;
+    if(requestedId === null) {
+        res.status(400).end();
+        return;
+    }
+
+    const name = req.body.name;
+    const species = req.body.species;
+    const weight = req.body.weight;
+    const height = req.body.height;
+    const bestMonth = req.body.bestMonth;
+
+    const animal = await animalController.findById(requestedId);
+
+    if(animal !== null) {
+        animal.name = req.body.name;
+        animal.species = req.body.species;
+        animal.weight = req.body.weight;
+        animal.height = req.body.height;
+        animal.bestMonth = req.body.bestMonth;
+
+        const animalSaved = await animal.save();
+        if(animalSaved !== null) {
+            res.status(200);
+            res.json(animal);
+        }
+    } else {
+        res.status(409).end();
+    }
+
+});
+
+/**
+ * Assign an animal to a Space
+ */
+
+
+/**
+ * Delete animal with a specify id
+ */
+animalRouter.delete("/delete/:id", async function(req, res) {
+    const requestedId = req.params.id;
+    if(requestedId === null) {
+        res.status(400).end();
+        return;
+    }
+    const animalController = await AnimalController.getInstance();
+    const animal = await animalController.deleteById({
+        where: { id: requestedId },
+        force : true
+    });
+    if(animal !== null) {
+        res.status(200);
+        res.json(animal);
+    } else {
+        res.status(409).end();
+    }
+});
+
+export {
+    animalRouter
+};

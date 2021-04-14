@@ -13,11 +13,13 @@ userRouter.post("/create", async function(req, res) {
     const phone = req.body.phone;
     const password = req.body.password;
     const admin = req.body.admin;
+    const role = req.body.role;
 
-    if( lastname === undefined || firstname === undefined || mail === undefined || phone === undefined || password === undefined || admin === undefined) {
+    if( lastname === undefined || firstname === undefined || mail === undefined || phone === undefined || password === undefined || admin === undefined  || role === undefined) {
         res.status(400).end();
         return;
     }
+
     const userController = await UserController.getInstance();
     const user = await userController.create({
         lastname,
@@ -25,7 +27,8 @@ userRouter.post("/create", async function(req, res) {
         mail,
         phone,
         password,
-        admin
+        admin,
+        role
     });
 
     if(user !== null) {
