@@ -1,5 +1,6 @@
 import express from 'express';
 import {UserController} from '../controllers/user.controller';
+import {authMiddleware} from "../middlewares/auth.middleware";
 
 const userRouter = express.Router();
 
@@ -17,6 +18,11 @@ userRouter.post("/create", async function(req, res) {
 
     if( lastname === undefined || firstname === undefined || mail === undefined || phone === undefined || password === undefined || admin === undefined  || role === undefined) {
         res.status(400).end();
+        return;
+    }
+
+    if(role !== "receptionist" || role !== "caretaker" || role !== "maintenance" || role !== "seller" || role !== "visitor") {
+        res.status(401).end();
         return;
     }
 
@@ -40,6 +46,28 @@ userRouter.post("/create", async function(req, res) {
 });
 
 /**
+ * Log user and create session
+ */
+userRouter.post("/login", async function(req, res) {
+    const mail = req.body.mail;
+    const password = req.body.password;
+    if(mail === undefined || password === undefined) {
+        res.status(400).end();
+        return;
+    }
+    const userController = await UserController.getInstance();
+    const session = await userController.login(mail, password);
+    if(session === null) {
+        res.status(404).end();
+        return;
+    } else {
+        res.json({
+            token: session.token
+        });
+    }
+});
+
+/**
  * Find a user by his id
  */
 userRouter.get("/:id", async function(req, res) {
@@ -56,6 +84,25 @@ userRouter.get("/:id", async function(req, res) {
     } else {
         res.status(409).end();
     }
+});
+
+/**
+ * Logout and delete session
+ */
+userRouter.delete("/logout/:id", authMiddleware, async function(req, res) {
+    /*const requestedId = req.params.id;
+    if(requestedId === null) {
+        res.status(400).end();
+        return;
+    }
+    const userController = await UserController.getInstance();
+    const session = await userController.logout(requestedId);
+    if(session !== null) {
+        res.status(200);
+        res.json(session);
+    } else {
+        res.status(409).end();
+    }*/
 });
 
 export {

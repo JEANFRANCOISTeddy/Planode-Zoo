@@ -7,6 +7,7 @@ import {
     BelongsToSetAssociationMixin,
     HasManyGetAssociationsMixin, HasManyAddAssociationMixin
 } from "sequelize";
+import {AnimalInstance} from "./animal.model";
 
 export interface ISpaceProps {
     id?: string;
@@ -24,7 +25,10 @@ export interface ISpaceProps {
 
 export interface ISpaceCreationProps extends Optional<ISpaceProps, "id"> {}
 
-export interface SpaceInstance extends Model<ISpaceProps, ISpaceCreationProps>, ISpaceProps {}
+export interface SpaceInstance extends Model<ISpaceProps, ISpaceCreationProps>, ISpaceProps {
+    getAnimals: HasManyGetAssociationsMixin<AnimalInstance>;
+    setAnimal: HasManyAddAssociationMixin<AnimalInstance, "id">;
+}
 
 export default function(sequelize: Sequelize): ModelCtor<SpaceInstance> {
     return sequelize.define<SpaceInstance>("Space", {

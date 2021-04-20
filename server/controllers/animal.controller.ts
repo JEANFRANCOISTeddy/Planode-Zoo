@@ -3,7 +3,7 @@ import {
     IAnimalCreationProps,
     IAnimalProps,
     AnimalInstance,
-    SequelizeManager
+    SequelizeManager, SpaceInstance
 } from "../models";
 import {compare, hash} from "bcrypt";
 import {ModelStatic, UpdateOptions} from "sequelize/types/lib/model";
@@ -17,19 +17,21 @@ export interface GetAllOptions {
 
 export class AnimalController {
     Animal: ModelCtor<AnimalInstance>;
+    Space: ModelCtor<SpaceInstance>;
 
     private static instance: AnimalController;
 
     public static async getInstance(): Promise<AnimalController> {
         if(AnimalController.instance === undefined) {
-            const {Animal} = await SequelizeManager.getInstance();
-            AnimalController.instance = new AnimalController(Animal);
+            const {Animal, Space} = await SequelizeManager.getInstance();
+            AnimalController.instance = new AnimalController(Animal, Space);
         }
         return AnimalController.instance;
     }
 
-    private constructor(Animal: ModelCtor<AnimalInstance>) {
+    private constructor(Animal: ModelCtor<AnimalInstance>, Space: ModelCtor<SpaceInstance>) {
         this.Animal = Animal;
+        this.Space = Space;
     }
 
     /**
@@ -125,6 +127,36 @@ export class AnimalController {
             const txt = data.toString('utf-8');
             console.error(txt);
         });
+    }
+
+    /**
+     *
+     * assignAnimalToSpace
+     *
+     *
+     *
+     * @param id_space
+     * @param id_animal
+     */
+    public async assignAnimalToSpace(id_space: string, id_animal: string): Promise<AnimalInstance | null> {
+        const space = await this.Space.findOne({
+            where: {
+                id: id_space
+            }
+        });
+
+        const animal = await this.Animal.findOne({
+            where: {
+                id: id_animal
+            }
+        });
+
+        if(space === null || animal === null) {
+            return null;
+        }
+
+        await animal.setSpace(space);
+        return animal;
     }
 }
 

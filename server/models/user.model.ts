@@ -17,7 +17,7 @@ export interface IUserProps {
     phone: string;
     password: string;
     admin: boolean;
-    role: string; // receptionist || caretaker || maintenance || seller
+    role: string; // receptionist || caretaker || maintenance || seller || visitor
 }
 
 export interface IUserCreationProps extends Optional<IUserProps, "id"> {}

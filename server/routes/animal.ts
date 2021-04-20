@@ -82,7 +82,7 @@ animalRouter.post("/create", async function(req, res) {
     const last_medical_description = req.body.last_medical_description;
     const bestMonth = req.body.bestMonth;
 
-    if( name === undefined || species === undefined || weight === undefined || height === undefined || last_medical_description === undefined || bestMonth === undefined ){
+    if( name === undefined || species === undefined || weight === undefined || height === undefined || bestMonth === undefined ){
         res.status(400).end();
         return;
     }
@@ -163,7 +163,25 @@ animalRouter.put("/update/:id", async function(req,res) {
 /**
  * Assign an animal to a Space
  */
+animalRouter.post('/assign', async function(req, res) {
+    const id_space = req.body.id_space;
+    const id_animal = req.body.id_animal;
 
+    if( id_space === undefined || id_animal === undefined ){
+        res.status(400).end();
+        return;
+    }
+
+    const animalController = await AnimalController.getInstance();
+    const animal = await animalController.assignAnimalToSpace(id_space,id_animal);
+
+    if(animal !== null) {
+        res.status(200);
+        res.json(animal);
+    } else {
+        res.status(409).end();
+    }
+})
 
 /**
  * Delete animal with a specify id

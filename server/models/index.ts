@@ -4,3 +4,4 @@ export * from './space.model';
 export * from './user.model';
 export * from './zoo.model';
 export * from './db.model';
+export * from './session.model';
