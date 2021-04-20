@@ -3,15 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="aa550674-f3e3-41de-b720-40fce46bfc66" name="Default Changelist" comment="BestMonth System end">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/books/maintenance.book.txt" beforeDir="false" afterPath="$PROJECT_DIR$/server/books/maintenance.book.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/books/treatment.book.txt" beforeDir="false" afterPath="$PROJECT_DIR$/server/books/treatment.book.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/animal.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/animal.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/space.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/space.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/user.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/models/animal.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/animal.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routes/animal.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/animal.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routes/space.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/space.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/routes/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/user.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -99,7 +91,7 @@
       <workItem from="1618765029918" duration="3828000" />
       <workItem from="1618814245824" duration="3914000" />
       <workItem from="1618841715355" duration="933000" />
-      <workItem from="1618901009753" duration="14510000" />
+      <workItem from="1618901009753" duration="14903000" />
     </task>
     <task id="LOCAL-00001" summary="Set up to start coding, template to create users in the database">
       <created>1617618936358</created>
@@ -157,7 +149,14 @@
       <option name="project" value="LOCAL" />
       <updated>1618913382841</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="BestMonth System end">
+      <created>1618925418698</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1618925418698</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

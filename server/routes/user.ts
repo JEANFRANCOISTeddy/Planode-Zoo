@@ -1,6 +1,7 @@
 import express from 'express';
 import {UserController} from '../controllers/user.controller';
 import {authMiddleware} from "../middlewares/auth.middleware";
+import {spaceRouter} from "./space";
 
 const userRouter = express.Router();
 
@@ -109,6 +110,28 @@ userRouter.delete("/logout/:token", authMiddleware, async function(req, res) {
     if(session !== null) {
         res.status(200);
         res.json(session);
+    } else {
+        res.status(409).end();
+    }
+});
+
+/**
+ * Delete USER with a specify id
+ */
+userRouter.delete("/delete/:id", async function(req, res) {
+    const requestedId = req.params.id;
+    if(requestedId === null) {
+        res.status(400).end();
+        return;
+    }
+    const userController = await UserController.getInstance();
+    const user = await userController.deleteById({
+        where: { id: requestedId },
+        force : true
+    });
+    if(user !== null) {
+        res.status(200);
+        res.json(user);
     } else {
         res.status(409).end();
     }

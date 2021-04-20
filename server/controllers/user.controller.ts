@@ -40,6 +40,12 @@ export class UserController {
         });
     }
 
+    /**
+     * Connexion of user
+     *
+     * @param mail
+     * @param password
+     */
     public async login(mail: string, password: string): Promise<SessionInstance | null> {
         const user = await this.User.findOne({
             where: {
@@ -61,6 +67,11 @@ export class UserController {
         return session;
     }
 
+    /**
+     * Logout user
+     *
+     * @param options
+     */
     public async logout(options: object): Promise<number> {
         return this.Session.destroy({
             ...options
@@ -76,11 +87,20 @@ export class UserController {
     }
 
     /**
-     * Find a space by his id
+     * Find a user by his id
+     *
+     * @param id
      */
     public async findById(id: string): Promise<UserInstance | null> {
         return this.User.findOne({ where: { id: id } })
     }
 
-
+    /**
+     * Delete user from specify id
+     */
+    public async deleteById(options: object): Promise<number> {
+        return this.User.destroy({
+            ...options
+        })
+    }
 }
