@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="aa550674-f3e3-41de-b720-40fce46bfc66" name="Default Changelist" comment="BestMonth System end">
+    <list default="true" id="aa550674-f3e3-41de-b720-40fce46bfc66" name="Default Changelist" comment="Update user CRUD">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/user.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/routes/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/user.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -91,7 +91,7 @@
       <workItem from="1618765029918" duration="3828000" />
       <workItem from="1618814245824" duration="3914000" />
       <workItem from="1618841715355" duration="933000" />
-      <workItem from="1618901009753" duration="14903000" />
+      <workItem from="1618901009753" duration="17423000" />
     </task>
     <task id="LOCAL-00001" summary="Set up to start coding, template to create users in the database">
       <created>1617618936358</created>
@@ -156,7 +156,21 @@
       <option name="project" value="LOCAL" />
       <updated>1618925418698</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Update user CRUD">
+      <created>1618925875987</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1618925875987</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Update user CRUD">
+      <created>1618926279428</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1618926279428</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -196,6 +210,7 @@
     <MESSAGE value="Avancement gestion des animaux par espaces" />
     <MESSAGE value="Fin tâche Gestion des animaux par espaces" />
     <MESSAGE value="BestMonth System end" />
-    <option name="LAST_COMMIT_MESSAGE" value="BestMonth System end" />
+    <MESSAGE value="Update user CRUD" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update user CRUD" />
   </component>
 </project>

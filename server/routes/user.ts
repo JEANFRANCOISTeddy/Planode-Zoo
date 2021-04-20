@@ -22,11 +22,7 @@ userRouter.post("/create", async function(req, res) {
         return;
     }
 
-    if(role !== "receptionist" || role !== "caretaker" || role !== "maintenance" || role !== "seller" || role !== "visitor") {
-        console.log(role);
-        console.log(typeof role);
-        console.log("visitor");
-        console.log(typeof "visitor");
+    if(role !== "receptionist" && role !== "caretaker" && role !== "maintenance" && role !== "seller" && role !== "visitor") {
         res.status(400).end();
         return;
     }
