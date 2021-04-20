@@ -22,7 +22,11 @@ userRouter.post("/create", async function(req, res) {
     }
 
     if(role !== "receptionist" || role !== "caretaker" || role !== "maintenance" || role !== "seller" || role !== "visitor") {
-        res.status(401).end();
+        console.log(role);
+        console.log(typeof role);
+        console.log("visitor");
+        console.log(typeof "visitor");
+        res.status(400).end();
         return;
     }
 
@@ -89,20 +93,25 @@ userRouter.get("/:id", async function(req, res) {
 /**
  * Logout and delete session
  */
-userRouter.delete("/logout/:id", authMiddleware, async function(req, res) {
-    /*const requestedId = req.params.id;
-    if(requestedId === null) {
+userRouter.delete("/logout/:token", authMiddleware, async function(req, res) {
+    const token = req.params.token;
+    console.log(token);
+    if(token === null) {
         res.status(400).end();
         return;
     }
     const userController = await UserController.getInstance();
-    const session = await userController.logout(requestedId);
+    const session = await userController.logout({
+        where: { token: token },
+        force : true
+    });
+    console.log(session);
     if(session !== null) {
         res.status(200);
         res.json(session);
     } else {
         res.status(409).end();
-    }*/
+    }
 });
 
 export {

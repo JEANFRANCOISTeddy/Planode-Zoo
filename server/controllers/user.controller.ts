@@ -61,12 +61,11 @@ export class UserController {
         return session;
     }
 
-    /*public async logout(id_user: string): Promise<number> {
+    public async logout(options: object): Promise<number> {
         return this.Session.destroy({
-            where: { id: id_user },
-            force : true
-        })
-    }*/
+            ...options
+        });
+    }
 
     public async getSession(token: string): Promise<SessionInstance | null> {
         return this.Session.findOne({

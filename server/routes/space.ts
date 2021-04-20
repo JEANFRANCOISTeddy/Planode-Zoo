@@ -37,7 +37,7 @@ spaceRouter.get("/readMaintenanceFile", async function(req, res) {
  * Add new maintenance to maintenance file
  */
 spaceRouter.post("/spaceMaintenanceFile", async function(req, res) {
-    const id = req.body.id;
+    const id_user = req.body.id_user;
     const name = req.body.name;
     const description = req.body.description;
     const timeStart = req.body.timeStart;
@@ -50,7 +50,7 @@ spaceRouter.post("/spaceMaintenanceFile", async function(req, res) {
 
     const spaceController = await SpaceController.getInstance();
     const space = await spaceController.spaceMaintenance(
-        id,
+        id_user,
         name,
         description,
         timeStart,
@@ -72,8 +72,8 @@ spaceRouter.post("/spaceMaintenanceFile", async function(req, res) {
         case 409:
             res.status(409).end();
             break;
-        case 200:
-            res.status(201);
+        case 201:
+            res.status(201).end();
             break;
     }
 

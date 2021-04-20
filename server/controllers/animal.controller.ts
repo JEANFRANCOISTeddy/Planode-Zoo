@@ -76,7 +76,7 @@ export class AnimalController {
     public async deleteById(options: object): Promise<number> {
         return this.Animal.destroy({
             ...options
-        })
+        });
     }
 
     /**
@@ -111,7 +111,7 @@ export class AnimalController {
         if(spaceSaved === null)
             return 409;
 
-        await saveNewMTreatmentInFile(user.lastname, user.firstname, animal.name, medical_description);
+        await saveNewTreatmentInFile(user.lastname, user.firstname, animal.name, medical_description);
 
         return 201;
     }
@@ -162,7 +162,7 @@ export class AnimalController {
 
 /**
  *
- * saveNewMTreatmentInFile
+ * saveNewTreatmentInFile
  *
  * Save a new treatment in treatment file
  *
@@ -171,7 +171,7 @@ export class AnimalController {
  * @param name_animal
  * @param medical_description
  */
-async function saveNewMTreatmentInFile(lastname_user: string, firstname_user: string, name_animal: string, medical_description:string): Promise<string> {
+async function saveNewTreatmentInFile(lastname_user: string, firstname_user: string, name_animal: string, medical_description:string): Promise<string> {
     return new Promise<string>(function(resolve, reject) {
         readFile('./books/treatment.book.txt', function (err, data) {
             if (err) {

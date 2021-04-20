@@ -65,8 +65,8 @@ animalRouter.post("/animalTreatmentFile", async function(req,res) {
         case 409:
             res.status(409).end();
             break;
-        case 200:
-            res.status(201);
+        case 201:
+            res.status(201).end();
             break;
     }
 });

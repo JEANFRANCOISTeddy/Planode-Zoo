@@ -16,7 +16,7 @@ export interface IAnimalProps {
     weight:number;
     height:number;
     last_medical_description?:string;
-    bestMonth?:string;
+    bestMonth:string;
 }
 
 export interface IAnimalCreationProps extends Optional<IAnimalProps, "id"> {}

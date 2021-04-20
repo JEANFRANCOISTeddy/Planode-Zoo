@@ -6,6 +6,8 @@ import {ModelStatic, UpdateOptions} from "sequelize/types/lib/model";
 import {readFile, appendFile} from "fs";
 import {UserController} from "./user.controller";
 
+const chalk = require('chalk');
+
 export interface GetAllOptions {
     limit?: number;
     offset?: number;
@@ -79,7 +81,7 @@ export class SpaceController {
      *
      * Put a space in maintenance
      *
-     * @param id
+     * @param id_user
      * @param name
      * @param description
      * @param timeStart
@@ -87,9 +89,9 @@ export class SpaceController {
      * @param hoursStart
      * @param hoursEnd
      */
-    public async spaceMaintenance(id: string, name :string, description :string, timeStart :string, timeEnd: string, hoursStart: string, hoursEnd: string): Promise<number> {
+    public async spaceMaintenance(id_user: string, name :string, description :string, timeStart :string, timeEnd: string, hoursStart: string, hoursEnd: string): Promise<number> {
         const userController = await UserController.getInstance();
-        const user = await userController.findById(id);
+        const user = await userController.findById(id_user);
 
         if(user === null)
             return 400;
@@ -103,6 +105,29 @@ export class SpaceController {
         const space = await this.findByName(name);
         if(space === null)
             return 404;
+
+
+        let dateTime = new Date();
+        let today_month = dateTime.getMonth() + 1;
+
+        const allAnimals = await space.getAnimals();
+        const bestMonthAnimals: Array<string> = [];
+
+        for(let i=0; i<allAnimals.length; i++) {
+            bestMonthAnimals.push(allAnimals[i].getDataValue("bestMonth"));
+        }
+
+        let i = 0;
+        bestMonthAnimals.forEach(function(element, index) {
+            if(element == today_month.toString()) {
+                i++;
+            }
+        });
+
+        if(i != 0)
+            console.log(chalk.green("It's the best month to maintain your space because no animals are present."));
+        else
+            console.log(chalk.red("It's not the best month to maintain your space because one or many of your animals are there."));
 
         if(space.status)
             return 409;
