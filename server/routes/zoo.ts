@@ -1,19 +1,26 @@
 import express from 'express';
 import {ZooController} from '../controllers/zoo.controller';
-import {DatabaseUtils} from "../config/db.config";
 
-const router = express.Router();
+const zooRouter = express.Router();
 
-router.get("/", async function(req, res) {
+zooRouter.get("/open", async function(req, res) {
+    const zooController = await ZooController.getInstance();
+    const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
+    const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
+
+    const session = await zooController.findAllSession({
+        limit,
+        offset
+    });
+    await zooController.open(session);
+
+    if(session != null) {
+        res.status(200).end();
+    } else {
+        res.status(409).end();
+    }
 });
 
-router.post("/", async function(req, res) {
-});
-
-router.put("/", async function(req, res) {
-});
-
-router.delete("/", async function(req, res) {
-});
-
-export default router;
+export {
+    zooRouter
+};

@@ -14,7 +14,7 @@ quel est le meilleur mois pour réparer un espace doit être disponible pour les
 + ✅ Gestion des animaux par espaces : Il est possible d'avoir différentes espèces dans le même espace. Il doit
 impérativement y avoir un carnet de suivi de traitements des animaux édité uniquement par un vétérinaire.
 
-+ ✅ Gestion hebdomadaire des employés : le zoo ne peut pas ouvrir s'il n'y a PAS au moins 1 personne à
++ ➖ Gestion hebdomadaire des employés : le zoo ne peut pas ouvrir s'il n'y a PAS au moins 1 personne à
 l'accueil, 1 soigneur, 1 agent d’entretien ainsi qu’ 1 vendeur.
 
 + Gestion des billets dans le zoo: Un billet donne accès à certains espaces.
