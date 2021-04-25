@@ -1,13 +1,15 @@
-import {ModelCtor, Sequelize} from "sequelize";
-import userCreator, {UserInstance} from "./user.model";
-import spaceCreator, {SpaceInstance} from "./space.model";
-import sessionCreator, {SessionInstance} from "./session.model";
-import {Dialect} from "sequelize/types/lib/sequelize";
+import { ModelCtor, Sequelize } from "sequelize";
+import userCreator, { UserInstance } from "./user.model";
+import spaceCreator, { SpaceInstance } from "./space.model";
+import passCreator, { PassInstance } from "./pass.model";
+import sessionCreator, { SessionInstance } from "./session.model";
+import { Dialect } from "sequelize/types/lib/sequelize";
 
 export interface SequelizeManagerProps {
     sequelize: Sequelize;
     User: ModelCtor<UserInstance>;
     Space: ModelCtor<SpaceInstance>;
+    Pass: ModelCtor<PassInstance>;
     Session: ModelCtor<SessionInstance>;
 }
 
@@ -18,10 +20,11 @@ export class SequelizeManager implements SequelizeManagerProps {
     sequelize: Sequelize;
     User: ModelCtor<UserInstance>;
     Space: ModelCtor<SpaceInstance>;
+    Pass: ModelCtor<PassInstance>;
     Session: ModelCtor<SessionInstance>;
 
     public static async getInstance(): Promise<SequelizeManager> {
-        if(SequelizeManager.instance === undefined) {
+        if (SequelizeManager.instance === undefined) {
             SequelizeManager.instance = await SequelizeManager.initialize();
         }
         return SequelizeManager.instance;
@@ -29,6 +32,7 @@ export class SequelizeManager implements SequelizeManagerProps {
 
     private static async initialize(): Promise<SequelizeManager> {
         const sequelize = new Sequelize({
+            logging: false,
             dialect: process.env.DB_DRIVER as Dialect,
             host: process.env.DB_HOST,
             database: process.env.DB_NAME,
@@ -41,6 +45,7 @@ export class SequelizeManager implements SequelizeManagerProps {
             sequelize,
             User: userCreator(sequelize),
             Space: spaceCreator(sequelize),
+            Pass: passCreator(sequelize),
             Session: sessionCreator(sequelize)
         }
         SequelizeManager.associate(managerProps);
@@ -57,6 +62,8 @@ export class SequelizeManager implements SequelizeManagerProps {
         this.sequelize = props.sequelize;
         this.User = props.User;
         this.Space = props.Space;
+        this.Pass = props.Pass;
         this.Session = props.Session;
     }
 }
+

@@ -1,5 +1,6 @@
 import express from 'express';
 import {SpaceController} from '../controllers/space.controller';
+import { SpaceInstance } from '../models';
 
 const spaceRouter = express.Router();
 
@@ -36,8 +37,10 @@ spaceRouter.post("/create", async function(req, res) {
     const handicapped = req.body.handicapped;
     const status = req.body.status;
     const last_space_description = req.body.last_space_description;
+    const infoHebdo = req.body.infoHebdo;
+    const infoQuoti = req.body.infoQuoti;
 
-    if( name === undefined || description === undefined || images === undefined || type === undefined || capacity === undefined || time === undefined || hours === undefined || handicapped === undefined || status === undefined  || last_space_description === undefined) {
+    if( name === undefined || description === undefined || images === undefined || type === undefined || capacity === undefined || time === undefined || hours === undefined || handicapped === undefined || status === undefined  || last_space_description === undefined || infoHebdo === undefined || infoQuoti === undefined) {
         res.status(400).end();
         return;
     }
@@ -52,7 +55,9 @@ spaceRouter.post("/create", async function(req, res) {
         hours,
         handicapped,
         status,
-        last_space_description
+        last_space_description,
+        infoHebdo,
+        infoQuoti
     });
 
     if(space !== null) {
@@ -62,6 +67,7 @@ spaceRouter.post("/create", async function(req, res) {
         res.status(409).end();
     }
 });
+
 
 /**
  * Find a space by his id
@@ -84,6 +90,7 @@ spaceRouter.get("/:id", async function(req, res) {
     }
 });
 
+
 /**
  * Modify a space created
  */
@@ -94,7 +101,7 @@ spaceRouter.put("/update/:id", async function(req, res) {
         res.status(400).end();
         return;
     }
-
+/*
     const name = req.body.name;
     const description = req.body.description;
     const images = req.body.images;
@@ -105,6 +112,8 @@ spaceRouter.put("/update/:id", async function(req, res) {
     const handicapped = req.body.handicapped;
     const status = req.body.status;
     const last_space_description = req.body.last_space_description;
+    const infoHebdo = req.body.infoHebdo;
+    const infoQuoti = req.body.infoQuoti;*/
 
     const space = await spaceController.findById({
         where: { id: requestedId }
@@ -121,6 +130,8 @@ spaceRouter.put("/update/:id", async function(req, res) {
         space.handicapped = req.body.handicapped;
         space.status = req.body.status;
         space.last_space_description = req.body.last_space_description;
+        space.infoHebdo = req.body.infoHebdo;
+        space.infoQuoti = req.body.infoQuoti;
 
         const spaceSaved = await space.save();
         if(spaceSaved !== null){
@@ -153,6 +164,39 @@ spaceRouter.delete("/delete/:id", async function(req, res) {
         res.status(409).end();
     }
 });
+
+spaceRouter.get("/hebdo/:id", async function(req, res) {
+    const requestedInfo = req.params.info;
+    const spaceController = await SpaceController.getInstance();
+    const spaces = await spaceController.findById({
+        attributes: ['infoHebdo'],
+        where: { id: requestedInfo }
+
+    });
+    if(spaces !== null) {
+        res.status(200);
+        res.json(spaces);
+    } else {
+        res.status(409).end();
+    }
+});
+
+spaceRouter.get("/reel/:id", async function(req, res) {
+    const requestedInfoQuoti = req.params.infoquoti;
+    const spaceController = await SpaceController.getInstance();
+    const spaces = await spaceController.findById({
+        attributes: ['infoHebdo'],
+        where: { id: requestedInfoQuoti }
+
+    });
+    if(spaces !== null) {
+        res.status(200);
+        res.json(spaces);
+    } else {
+        res.status(409).end();
+    }
+});
+
 
 export {
     spaceRouter

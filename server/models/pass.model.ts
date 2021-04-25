@@ -1,20 +1,76 @@
+import {
+    Sequelize,
+    Optional,
+    Model,
+    DataTypes,
+    ModelCtor,
+    BelongsToSetAssociationMixin,
+    HasManyGetAssociationsMixin, HasManyAddAssociationMixin
+} from "sequelize";
+
+
+
+
+
+export interface IPassCreationProps extends Optional<IPassProps, "id"> { }
+
+export interface PassInstance extends Model<IPassProps, IPassCreationProps>, IPassProps { }
+
 export interface IPassProps {
-      id?:string;
-      name:string;
-      price:number;
-      route?:Array<object>;
-      day_start_validation : string;
-      day_end_validation : string
+    id?: string;
+    name: string;
+    price: number;
+    route: string;
+    day_start_validation: string;
+    day_end_validation: string;
+    valid: boolean
 }
+
+
+export default function (sequelize: Sequelize): ModelCtor<PassInstance> {
+    return sequelize.define<PassInstance>("Pass", {
+        id: {
+            type: DataTypes.BIGINT,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        name: {
+            type: DataTypes.STRING
+        },
+        price: {
+            type: DataTypes.BIGINT
+        },
+        route: {
+            type: DataTypes.STRING
+        },
+        day_start_validation: {
+            type: DataTypes.STRING
+        },
+        day_end_validation: {
+            type: DataTypes.STRING
+        },
+        valid: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: '0'
+        }
+    }, {
+        freezeTableName: true,
+        underscored: true,
+        paranoid: true,
+        timestamps: true
+    });
+}
+
 
 // SQL Table Pass
 export class Pass implements IPassProps {
-    id?:string;
-    name:string;
-    price:number;
-    route?:Array<object>;
-    day_start_validation : string;
-    day_end_validation : string
+    id?: string;
+    name: string;
+    price: number;
+    route: string;
+    day_start_validation: string;
+    day_end_validation: string;
+    valid: boolean;
 
     constructor(props: IPassProps) {
         this.id = props.id;
@@ -23,6 +79,7 @@ export class Pass implements IPassProps {
         this.route = props.route;
         this.day_start_validation = props.day_start_validation;
         this.day_end_validation = props.day_end_validation;
+        this.valid = props.valid;
 
     }
 }

@@ -1,6 +1,5 @@
 import express from 'express';
 import {ZooController} from '../controllers/zoo.controller';
-import {DatabaseUtils} from "../config/db.config";
 
 const router = express.Router();
 

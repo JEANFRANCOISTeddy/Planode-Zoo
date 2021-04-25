@@ -1,10 +1,10 @@
-import express from 'express';
+/*import express from 'express';
 import {AnimalController} from '../controllers/animal.controller';
 import {DatabaseUtils} from "../config/db.config";
 
 const router = express.Router();
 
-router.get("/", async function(req, res) {
+router.get("/", async function(req, res) { 
     const connection = await DatabaseUtils.getConnection();
     const animalController = new AnimalController(connection);
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
@@ -96,4 +96,4 @@ router.delete("/id", async function(req, res) {
     }
 });
 
-export default router;
+export default router;*/

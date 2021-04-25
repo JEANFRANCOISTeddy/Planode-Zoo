@@ -28,4 +28,10 @@ export class UserController {
             password: passwordHashed
         });
     }
+
+        public async findById(options: object): Promise<UserInstance | null> {
+        return this.User.findOne({
+            ...options
+        })
+    }
 }
