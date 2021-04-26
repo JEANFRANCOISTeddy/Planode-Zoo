@@ -1,6 +1,6 @@
 import express from 'express';
-import {userMiddleware} from "../middlewares/auth.middleware";
-import {employeeMiddleware} from "../middlewares/employee.middleware";
+import { userMiddleware } from "../middlewares/auth.middleware";
+import { employeeMiddleware } from "../middlewares/employee.middleware";
 import { PassController } from '../controllers';
 import { SpaceController } from '../controllers';
 import { UserController } from '../controllers';
@@ -14,7 +14,7 @@ const userRouter = express.Router();
 /**
  * Get all users created
  */
-userRouter.get("/", employeeMiddleware, async function(req,res) {
+userRouter.get("/", employeeMiddleware, async function (req, res) {
     const userController = await UserController.getInstance();
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
@@ -23,7 +23,7 @@ userRouter.get("/", employeeMiddleware, async function(req,res) {
         offset
     });
 
-    if(users !== null) {
+    if (users !== null) {
         res.status(200);
         res.json(users);
     } else {
@@ -44,12 +44,12 @@ userRouter.post("/create", async function (req, res) {
     const role = req.body.role;
     const id_pass = req.body.id_pass;
 
-    if (lastname === undefined || firstname === undefined || mail === undefined || phone === undefined || password === undefined || admin === undefined  || role === undefined || id_pass === undefined) {
+    if (lastname === undefined || firstname === undefined || mail === undefined || phone === undefined || password === undefined || admin === undefined || role === undefined || id_pass === undefined) {
         res.status(400).end();
         return;
     }
 
-    if(role !== "receptionist" && role !== "caretaker" && role !== "maintenance" && role !== "seller" && role !== "visitor") {
+    if (role !== "receptionist" && role !== "caretaker" && role !== "maintenance" && role !== "seller" && role !== "visitor") {
         res.status(400).end();
         return;
     }
@@ -77,16 +77,16 @@ userRouter.post("/create", async function (req, res) {
 /**
  * Log user and create session
  */
-userRouter.post("/login", async function(req, res) {
+userRouter.post("/login", async function (req, res) {
     const mail = req.body.mail;
     const password = req.body.password;
-    if(mail === undefined || password === undefined) {
+    if (mail === undefined || password === undefined) {
         res.status(400).end();
         return;
     }
     const userController = await UserController.getInstance();
     const session = await userController.login(mail, password);
-    if(session === null) {
+    if (session === null) {
         res.status(404).end();
         return;
     } else {
@@ -99,15 +99,15 @@ userRouter.post("/login", async function(req, res) {
 /**
  * Find a user by his id
  */
-userRouter.get("/:id", async function(req, res) {
+userRouter.get("/:id", async function (req, res) {
     const requestedId = req.params.id;
-    if(requestedId === null) {
+    if (requestedId === null) {
         res.status(400).end();
         return;
     }
     const userController = await UserController.getInstance();
     const user = await userController.findById(requestedId);
-    if(user !== null) {
+    if (user !== null) {
         res.status(200);
         res.json(user);
     } else {
@@ -118,9 +118,9 @@ userRouter.get("/:id", async function(req, res) {
 /**
  * Logout and delete session
  */
-userRouter.delete("/logout", userMiddleware, async function(req, res) {
+userRouter.delete("/logout", userMiddleware, async function (req, res) {
     const auth = req.headers["authorization"];
-    if(auth === undefined) {
+    if (auth === undefined) {
         res.status(400).end();
         return;
     }
@@ -128,17 +128,17 @@ userRouter.delete("/logout", userMiddleware, async function(req, res) {
     const token = auth.slice(7);
     const userController = await UserController.getInstance();
     const session = await userController.getSession(token);
-    if(session == null) {
+    if (session == null) {
         res.status(403).end();
         return;
     }
 
     const session_destroy = await userController.logout({
         where: { id: session.id },
-        force : true
+        force: true
     });
 
-    if(session_destroy !== null) {
+    if (session_destroy !== null) {
         res.status(200);
         res.json(session_destroy);
     } else {
@@ -149,7 +149,7 @@ userRouter.delete("/logout", userMiddleware, async function(req, res) {
 /**
  * Modify a created user
  */
-userRouter.put("/update/:id", async function(req, res) {
+userRouter.put("/update/:id", async function (req, res) {
     const userController = await UserController.getInstance();
     const requestedId = req.params.id;
     if (requestedId === null) {
@@ -166,7 +166,7 @@ userRouter.put("/update/:id", async function(req, res) {
     const role = req.body.role;
 
     const user = await userController.findById(requestedId);
-    if(user !== null){
+    if (user !== null) {
         user.lastname = req.body.lastname;
         user.firstname = req.body.firstname;
         user.mail = req.body.mail;
@@ -176,7 +176,7 @@ userRouter.put("/update/:id", async function(req, res) {
         user.role = req.body.role;
 
         const userSaved = await user.save();
-        if(userSaved !== null){
+        if (userSaved !== null) {
             res.status(200);
             res.json(user);
         }
@@ -188,18 +188,18 @@ userRouter.put("/update/:id", async function(req, res) {
 /**
  * Delete USER with a specify id
  */
-userRouter.delete("/delete/:id", employeeMiddleware, async function(req, res) {
+userRouter.delete("/delete/:id", employeeMiddleware, async function (req, res) {
     const requestedId = req.params.id;
-    if(requestedId === null) {
+    if (requestedId === null) {
         res.status(400).end();
         return;
     }
     const userController = await UserController.getInstance();
     const user = await userController.deleteById({
         where: { id: requestedId },
-        force : true
+        force: true
     });
-    if(user !== null) {
+    if (user !== null) {
         res.status(200);
         res.json(user);
     } else {
@@ -268,10 +268,12 @@ userRouter.get("/visit/:id/:id_space", async function (req, res) {
                     if (resP.valid == false) {
                         console.log(chalk.red("Enter in the zoo before !"));
                         res.status(402).end();
+                        return;
                     }
                     if (requestedIdSpace == resP.space_now) {
                         console.log(chalk.red("You are already in !"));
                         res.status(400).end();
+                        return;
                     }
                     var route = resP.route?.split('/');
                     const len = route.length;
@@ -294,12 +296,30 @@ userRouter.get("/visit/:id/:id_space", async function (req, res) {
                                 result = i;
                             }
                         }
-                        if (route[result + 1] != route[test] && resP.space_now != "0") {
+
+                        if (resP.space_now != "0") {
+                            if (route[result + 1] == route[test]) {
+
+
+                            } else {
+                                console.log(chalk.red("Wrong Road you have the Excape Game Pass ! "))
+                                res.status(402).end();
+                                return;
+                            }
+
+                        } else if ((result == 0) && (route[0] == requestedIdSpace)) {
+
+
+                        } else {
                             console.log(chalk.red("Wrong Road you have the Excape Game Pass ! "))
                             res.status(402).end();
                             return;
                         }
                     }
+
+
+
+
 
                     SpaceController.getInstance().then(function (resultSpace) {
 

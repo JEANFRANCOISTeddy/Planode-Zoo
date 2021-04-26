@@ -1,8 +1,9 @@
-import {IZooCreationProps, SequelizeManager, SessionInstance, ZooInstance} from "../models";
-import {Connection, escape} from "mysql2/promise";
-import {ResultSetHeader, RowDataPacket} from "mysql2";
-import {ModelCtor} from "sequelize";
-import {hash} from "bcrypt";
+import { IZooCreationProps, SequelizeManager, SessionInstance, ZooInstance } from "../models";
+import { Connection, escape } from "mysql2/promise";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
+import { ModelCtor } from "sequelize";
+import { hash } from "bcrypt";
+import { addSyntheticLeadingComment } from "typescript";
 
 const chalk = require('chalk');
 
@@ -19,8 +20,8 @@ export class ZooController {
     private static instance: ZooController;
 
     public static async getInstance(): Promise<ZooController> {
-        if(ZooController.instance === undefined) {
-            const {Session, Zoo} = await SequelizeManager.getInstance();
+        if (ZooController.instance === undefined) {
+            const { Session, Zoo } = await SequelizeManager.getInstance();
             ZooController.instance = new ZooController(Session, Zoo);
         }
         return ZooController.instance;
@@ -82,19 +83,23 @@ export class ZooController {
                 id: id_zoo
             }
         });
-        if(zoo === null) {
+        if (zoo === null) {
             return null;
         }
+        let maDate = new Date();
+        maDate.setHours(14);
+        maDate.setDate(1);
 
         for (const property in sessions) {
             user = sessions[property].getUser();
             await user.then((value) => {
                 jobs.push(value.getDataValue("role"));
+
             });
         }
 
         for (let i = 0; i < jobs.length; i++) {
-            switch (jobs[i]){
+            switch (jobs[i]) {
                 case "receptionist":
                     receptionist = 1;
                     break;
@@ -108,10 +113,12 @@ export class ZooController {
                     seller = 1;
                     break;
             }
+
         }
 
-        if(receptionist == 1 && caretaker == 1 && maintenance == 1 && seller == 1) {
-            const token = await hash( Date.now() + zoo.name, 5);
+        if (receptionist == 1 && caretaker == 1 && maintenance == 1 && seller == 1) {
+
+            const token = await hash(Date.now() + zoo.name, 5);
             const session = await this.Session.create({
                 token
             });
