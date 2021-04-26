@@ -7,6 +7,7 @@ import { UserController } from '../controllers';
 import { PassInstance, SpaceInstance, UserInstance } from '../models';
 import { verification } from '../index';
 import { hash } from 'bcrypt';
+import {accessMiddleware} from "../middlewares/access.middleware";
 const chalk = require('chalk');
 const userRouter = express.Router();
 
@@ -208,7 +209,7 @@ userRouter.delete("/delete/:id", employeeMiddleware, async function (req, res) {
     }
 });
 
-userRouter.get("/enter/:id", async function (req, res) {
+userRouter.get("/enter/:id", accessMiddleware, async function (req, res) {
     const requestedId = req.params.id;
 
     UserController.getInstance().then(function (resultUser) {
@@ -231,12 +232,15 @@ userRouter.get("/enter/:id", async function (req, res) {
                                 console.log(chalk.green("------------------- Welcome to Planode-Zoo ----------------------"));
 
                                 res.status(200).end();
+                                return;
                             } else {
                                 console.log(chalk.red("Your pass is useless"));
                                 res.status(401).end();
+                                return;
                             }
                         } else {
                             res.status(402).end();
+                            return;
                         }
                     }
                 });
@@ -246,7 +250,7 @@ userRouter.get("/enter/:id", async function (req, res) {
 });
 
 
-userRouter.get("/visit/:id/:id_space", async function (req, res) {
+userRouter.get("/visit/:id/:id_space",accessMiddleware,  async function (req, res) {
     const requestedId = req.params.id;
     const requestedIdSpace = req.params.id_space;
 

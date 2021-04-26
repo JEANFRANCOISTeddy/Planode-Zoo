@@ -10,8 +10,10 @@ export async function employeeMiddleware(req: express.Request, res: express.Resp
         const session = await userController.getSession(token);
         if(session !== null) {
             const zoo = await session.getZoo();
-            if(zoo === undefined)
+            if(zoo === undefined){
                 res.status(409).end();
+                return;
+            }
 
             if(zoo.open){
                 const user = await session.getUser();
