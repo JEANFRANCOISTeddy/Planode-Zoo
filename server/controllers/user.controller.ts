@@ -1,5 +1,5 @@
 import {ModelCtor} from "sequelize";
-import {IUserCreationProps, UserInstance} from "../models";
+import {IUserCreationProps, UserInstance, ZooInstance} from "../models";
 import {SessionInstance} from "../models";
 import {SequelizeManager, SpaceInstance} from "../models";
 import {compare, hash} from "bcrypt";
@@ -9,20 +9,22 @@ export class UserController {
 
     User: ModelCtor<UserInstance>;
     Session: ModelCtor<SessionInstance>;
+    Zoo: ModelCtor<ZooInstance>;
 
     private static instance: UserController;
 
     public static async getInstance(): Promise<UserController> {
         if(UserController.instance === undefined) {
-            const {User, Session} = await SequelizeManager.getInstance();
-            UserController.instance = new UserController(User, Session);
+            const {User, Session, Zoo} = await SequelizeManager.getInstance();
+            UserController.instance = new UserController(User, Session, Zoo);
         }
         return UserController.instance;
     }
 
-    private constructor(User: ModelCtor<UserInstance>, Session: ModelCtor<SessionInstance>) {
+    private constructor(User: ModelCtor<UserInstance>, Session: ModelCtor<SessionInstance>, Zoo: ModelCtor<ZooInstance>) {
         this.User = User;
         this.Session = Session;
+        this.Zoo = Zoo;
     }
 
     /**
@@ -56,8 +58,9 @@ export class UserController {
      *
      * @param mail
      * @param password
+     * @param id_zoo
      */
-    public async login(mail: string, password: string): Promise<SessionInstance | null> {
+    public async login(mail: string, password: string, id_zoo: string): Promise<SessionInstance | null> {
         const user = await this.User.findOne({
             where: {
                 mail
@@ -70,11 +73,22 @@ export class UserController {
         if(!isSamePassword) {
             return null;
         }
+
+        const zoo = await this.Zoo.findOne({
+            where: {
+                id: id_zoo
+            }
+        });
+        if(zoo === null) {
+            return null;
+        }
+
         const token = await hash( Date.now() + mail, 5);
         const session = await this.Session.create({
             token
         });
         await session.setUser(user);
+        await session.setZoo(zoo);
         return session;
     }
 
