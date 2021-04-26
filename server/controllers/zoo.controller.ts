@@ -74,9 +74,10 @@ export class ZooController {
      * @param sessions
      * @param id_zoo
      */
-    public async open(sessions: SessionInstance[], id_zoo: string): Promise<string | null> {
+    public async open(sessions: SessionInstance[], id_zoo: string): Promise<boolean> {
         let user, receptionist, caretaker, maintenance, seller;
         const jobs: Array<string> = [];
+        var admin = false;
 
         const zoo = await this.Zoo.findOne({
             where: {
@@ -84,54 +85,64 @@ export class ZooController {
             }
         });
         if (zoo === null) {
-            return null;
+            return false;
         }
-        let maDate = new Date();
-        maDate.setHours(14);
-        maDate.setDate(1);
+
 
         for (const property in sessions) {
             user = sessions[property].getUser();
             await user.then((value) => {
                 jobs.push(value.getDataValue("role"));
-
+                if (value.getDataValue("admin"))
+                    admin = true;
             });
         }
 
-        for (let i = 0; i < jobs.length; i++) {
-            switch (jobs[i]) {
-                case "receptionist":
-                    receptionist = 1;
-                    break;
-                case "caretaker":
-                    caretaker = 1;
-                    break;
-                case "maintenance":
-                    maintenance = 1;
-                    break;
-                case "seller":
-                    seller = 1;
-                    break;
+        let maDate = new Date();
+        maDate.setHours(22);
+        let nHeure = maDate.getHours();
+
+        if (nHeure < 18 && nHeure > 7) {
+            console.log(chalk.red("JOUR"));
+            for (let i = 0; i < jobs.length; i++) {
+                switch (jobs[i]) {
+                    case "receptionist":
+                        receptionist = 1;
+                        break;
+                    case "caretaker":
+                        caretaker = 1;
+                        break;
+                    case "maintenance":
+                        maintenance = 1;
+                        break;
+                    case "seller":
+                        seller = 1;
+                        break;
+                }
             }
 
+            if (receptionist == 1 && caretaker == 1 && maintenance == 1 && seller == 1) {
+                zoo.open = true;
+                await zoo.save();
+
+                return true;
+            } else {
+                console.log(chalk.red("ZOO CAN'T OPEN"))
+                return false;
+            }
+        } else {
+            console.log(chalk.red("SOIR"));
+            if (admin) {
+                zoo.open = true;
+                await zoo.save();
+
+                return true;
+            } else {
+                console.log(chalk.red("ZOO CAN'T OPEN"))
+                return false;
+            }
         }
 
-        if (receptionist == 1 && caretaker == 1 && maintenance == 1 && seller == 1) {
-
-            const token = await hash(Date.now() + zoo.name, 5);
-            const session = await this.Session.create({
-                token
-            });
-
-            zoo.open = true;
-            await session.setZoo(zoo);
-            await zoo.save();
-
-            return "ZOO OPEN";
-        }
-        console.log(chalk.red("ZOO CAN'T OPEN"))
-
-        return "ZOO CAN'T OPEN";
     }
 
     /**
@@ -141,11 +152,5 @@ export class ZooController {
         return this.Zoo.destroy({
             ...options
         })
-    }
-
-    public async isOpen(): Promise<boolean> {
-
-
-        return false;
     }
 }

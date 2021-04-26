@@ -1,6 +1,8 @@
+import chalk from 'chalk';
 import express from 'express';
 import {ZooController} from '../controllers/zoo.controller';
 import {employeeMiddleware} from "../middlewares/employee.middleware";
+import { openMiddleware } from '../middlewares/open.middleware';
 
 const zooRouter = express.Router();
 
@@ -39,7 +41,7 @@ zooRouter.post("/create", employeeMiddleware, async function(req, res) {
 /**
  * Open specify zoo
  */
-zooRouter.get("/open/:id", employeeMiddleware, async function(req, res) {
+zooRouter.get("/open/:id", openMiddleware, async function(req, res) {
     const zooController = await ZooController.getInstance();
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
@@ -56,12 +58,11 @@ zooRouter.get("/open/:id", employeeMiddleware, async function(req, res) {
     });
     const zoo = await zooController.open(session, requestedId);
 
-    if(zoo != null) {
-        res.send(zoo);
+    if(zoo) {
+        res.send("ZOO OPEN");
         res.status(200).end();
     } else {
-        res.send(zoo);
-        res.status(409).end();
+        res.status(401).send("ZOO CAN'T OPEN").end();
     }
 });
 

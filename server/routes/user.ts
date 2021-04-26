@@ -80,12 +80,13 @@ userRouter.post("/create", async function (req, res) {
 userRouter.post("/login", async function (req, res) {
     const mail = req.body.mail;
     const password = req.body.password;
-    if (mail === undefined || password === undefined) {
+    const id_zoo = req.body.id_zoo;
+    if (mail === undefined || password === undefined || id_zoo === undefined) {
         res.status(400).end();
         return;
     }
     const userController = await UserController.getInstance();
-    const session = await userController.login(mail, password);
+    const session = await userController.login(mail, password, id_zoo);
     if (session === null) {
         res.status(404).end();
         return;
