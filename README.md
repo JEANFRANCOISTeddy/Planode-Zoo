@@ -26,7 +26,7 @@ par mois toute l'année)
  -  ✅ Contrôle des billets: Avant chaque espace, l’API devra valider ou non si l’utilisateur peut accéder à l’
 espace
 
- - ➖ PASS Escape game: Certains billet donneront accès aux espaces selon un ordre prédéfini (exemple:
+ - ✅ PASS Escape game: Certains billet donneront accès aux espaces selon un ordre prédéfini (exemple:
 tigre/lion/singe)
 
 + ✅ Des statistiques quotidiennes et hebdomadaires devront permette de mettre en évidence l’affluence de
