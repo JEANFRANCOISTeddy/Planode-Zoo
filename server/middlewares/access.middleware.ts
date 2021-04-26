@@ -2,7 +2,7 @@ import express from "express";
 import {UserController} from "../controllers/user.controller";
 import zooModel from "../models/zoo.model";
 
-export async function employeeMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
+export async function accessMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
     const auth = req.headers["authorization"];
     if(auth !== undefined) {
         const token = auth.slice(7);
@@ -10,25 +10,17 @@ export async function employeeMiddleware(req: express.Request, res: express.Resp
         const session = await userController.getSession(token);
         if(session !== null) {
             const zoo = await session.getZoo();
-            if(zoo === undefined){
+            if(zoo === undefined)
                 res.status(409).end();
-                return;
-            }
 
             if(zoo.open){
-                const user = await session.getUser();
-                if(user.role !== "visitor"){
-                    next();
-                    return;
-                }else{
-                    res.status(401).end();
-                    return;
-                }
+                next();
+                return;
             }else{
                 res.status(401).send("ZOO NOT OPEN").end();
                 return;
             }
-            
+
         } else {
             res.status(403).end();
             return;
