@@ -1,8 +1,9 @@
 import {ModelCtor} from "sequelize";
-import {IUserCreationProps, IUserProps, UserInstance} from "../models";
+import {IUserCreationProps, UserInstance} from "../models";
 import {SessionInstance} from "../models";
 import {SequelizeManager, SpaceInstance} from "../models";
 import {compare, hash} from "bcrypt";
+import {GetAllOptions} from "./animal.controller";
 
 export class UserController {
 
@@ -23,6 +24,16 @@ export class UserController {
         this.User = User;
         this.Session = Session;
     }
+
+    /**
+     * Get all users created
+     */
+    public async findAll(options: GetAllOptions): Promise<Array<UserInstance>> {
+        return this.User.findAll({
+            ...options
+        });
+    }
+
 
     /**
      *
@@ -78,6 +89,12 @@ export class UserController {
         });
     }
 
+    /**
+     *
+     * Get user Session with auth token
+     *
+     * @param token
+     */
     public async getSession(token: string): Promise<SessionInstance | null> {
         return this.Session.findOne({
             where: {

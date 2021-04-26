@@ -1,9 +1,31 @@
 import express from 'express';
 import {UserController} from '../controllers/user.controller';
-import {authMiddleware} from "../middlewares/auth.middleware";
+import {userMiddleware} from "../middlewares/auth.middleware";
 import {spaceRouter} from "./space";
+import {employeeMiddleware} from "../middlewares/employee.middleware";
+import {SpaceController} from "../controllers/space.controller";
 
 const userRouter = express.Router();
+
+/**
+ * Get all users created
+ */
+userRouter.get("/", employeeMiddleware, async function(req,res) {
+    const userController = await UserController.getInstance();
+    const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
+    const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
+    const users = await userController.findAll({
+        limit,
+        offset
+    });
+
+    if(users !== null) {
+        res.status(200);
+        res.json(users);
+    } else {
+        res.status(409).end();
+    }
+});
 
 /**
  * Creation of new user
@@ -90,22 +112,68 @@ userRouter.get("/:id", async function(req, res) {
 /**
  * Logout and delete session
  */
-userRouter.delete("/logout/:token", authMiddleware, async function(req, res) {
-    const token = req.params.token;
-    console.log(token);
-    if(token === null) {
+userRouter.delete("/logout", userMiddleware, async function(req, res) {
+    const auth = req.headers["authorization"];
+    if(auth === undefined) {
         res.status(400).end();
         return;
     }
+
+    const token = auth.slice(7);
     const userController = await UserController.getInstance();
-    const session = await userController.logout({
-        where: { token: token },
+    const session = await userController.getSession(token);
+    if(session == null) {
+        res.status(403).end();
+        return;
+    }
+
+    const session_destroy = await userController.logout({
+        where: { id: session.id },
         force : true
     });
-    console.log(session);
-    if(session !== null) {
+
+    if(session_destroy !== null) {
         res.status(200);
-        res.json(session);
+        res.json(session_destroy);
+    } else {
+        res.status(409).end();
+    }
+});
+
+/**
+ * Modify a created user
+ */
+userRouter.put("/update/:id", async function(req, res) {
+    const userController = await UserController.getInstance();
+    const requestedId = req.params.id;
+    if (requestedId === null) {
+        res.status(400).end();
+        return;
+    }
+
+    const lastname = req.body.lastname;
+    const firstname = req.body.firstname;
+    const mail = req.body.mail;
+    const phone = req.body.phone;
+    const password = req.body.password;
+    const admin = req.body.admin;
+    const role = req.body.role;
+
+    const user = await userController.findById(requestedId);
+    if(user !== null){
+        user.lastname = req.body.lastname;
+        user.firstname = req.body.firstname;
+        user.mail = req.body.mail;
+        user.phone = req.body.phone;
+        user.password = req.body.password;
+        user.admin = req.body.admin;
+        user.role = req.body.role;
+
+        const userSaved = await user.save();
+        if(userSaved !== null){
+            res.status(200);
+            res.json(user);
+        }
     } else {
         res.status(409).end();
     }
@@ -114,7 +182,7 @@ userRouter.delete("/logout/:token", authMiddleware, async function(req, res) {
 /**
  * Delete USER with a specify id
  */
-userRouter.delete("/delete/:id", async function(req, res) {
+userRouter.delete("/delete/:id", employeeMiddleware, async function(req, res) {
     const requestedId = req.params.id;
     if(requestedId === null) {
         res.status(400).end();

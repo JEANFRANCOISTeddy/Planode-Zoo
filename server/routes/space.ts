@@ -1,5 +1,6 @@
 import express from 'express';
 import {SpaceController} from '../controllers/space.controller';
+import {employeeMiddleware} from "../middlewares/employee.middleware";
 
 const chalk = require('chalk');
 const spaceRouter = express.Router();
@@ -7,7 +8,7 @@ const spaceRouter = express.Router();
 /**
  * Get all spaces created
  */
-spaceRouter.get("/", async function(req, res) {
+spaceRouter.get("/", employeeMiddleware, async function(req, res) {
     const spaceController = await SpaceController.getInstance();
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
@@ -26,17 +27,17 @@ spaceRouter.get("/", async function(req, res) {
 /**
  * Read maintenance file
  */
-spaceRouter.get("/readMaintenanceFile", async function(req, res) {
+spaceRouter.get("/readMaintenanceFile", employeeMiddleware, async function(req, res) {
     const spaceController = await SpaceController.getInstance();
-    const maintenanceFile = await spaceController.readMaintenanceFile();
-    res.send(maintenanceFile);
+    await spaceController.readMaintenanceFile();
+    res.send("Look the terminal to see the file's content");
     res.status(200);
 });
 
 /**
  * Add new maintenance to maintenance file
  */
-spaceRouter.post("/spaceMaintenanceFile", async function(req, res) {
+spaceRouter.post("/spaceMaintenanceFile", employeeMiddleware, async function(req, res) {
     const id_user = req.body.id_user;
     const name = req.body.name;
     const description = req.body.description;
@@ -82,7 +83,7 @@ spaceRouter.post("/spaceMaintenanceFile", async function(req, res) {
 /**
  * Creation of new space
  */
-spaceRouter.post("/create", async function(req, res) {
+spaceRouter.post("/create", employeeMiddleware, async function(req, res) {
     const name = req.body.name;
     const description = req.body.description;
     const images = req.body.images;
@@ -123,7 +124,7 @@ spaceRouter.post("/create", async function(req, res) {
 /**
  * Find a space by his id
  */
-spaceRouter.get("/:id", async function(req, res) {
+spaceRouter.get("/:id", employeeMiddleware, async function(req, res) {
     const requestedId = req.params.id;
     if(requestedId === null) {
         res.status(400).end();
@@ -142,7 +143,7 @@ spaceRouter.get("/:id", async function(req, res) {
 /**
  * Modify a space created
  */
-spaceRouter.put("/update/:id", async function(req, res) {
+spaceRouter.put("/update/:id", employeeMiddleware, async function(req, res) {
     const spaceController = await SpaceController.getInstance();
     const requestedId = req.params.id;
     if(requestedId === null) {
@@ -188,7 +189,7 @@ spaceRouter.put("/update/:id", async function(req, res) {
 /**
  * Delete space with a specify id
  */
-spaceRouter.delete("/delete/:id", async function(req, res) {
+spaceRouter.delete("/delete/:id", employeeMiddleware, async function(req, res) {
     const requestedId = req.params.id;
     if(requestedId === null) {
         res.status(400).end();

@@ -4,6 +4,7 @@ import spaceCreator, {SpaceInstance} from "./space.model";
 import sessionCreator, {SessionInstance} from "./session.model";
 import passCreator, {PassInstance} from "./pass.model";
 import animalCreator, {AnimalInstance} from "./animal.model";
+import zooCreator, {ZooInstance} from "./zoo.model";
 import {Dialect} from "sequelize/types/lib/sequelize";
 
 export interface SequelizeManagerProps {
@@ -13,6 +14,7 @@ export interface SequelizeManagerProps {
     Session: ModelCtor<SessionInstance>;
     Pass: ModelCtor<PassInstance>;
     Animal: ModelCtor<AnimalInstance>;
+    Zoo: ModelCtor<ZooInstance>;
 }
 
 export class SequelizeManager implements SequelizeManagerProps {
@@ -25,6 +27,7 @@ export class SequelizeManager implements SequelizeManagerProps {
     Session: ModelCtor<SessionInstance>;
     Pass: ModelCtor<PassInstance>;
     Animal: ModelCtor<AnimalInstance>;
+    Zoo: ModelCtor<ZooInstance>;
 
     public static async getInstance(): Promise<SequelizeManager> {
         if(SequelizeManager.instance === undefined) {
@@ -35,6 +38,7 @@ export class SequelizeManager implements SequelizeManagerProps {
 
     private static async initialize(): Promise<SequelizeManager> {
         const sequelize = new Sequelize({
+            logging: false,
             dialect: process.env.DB_DRIVER as Dialect,
             host: process.env.DB_HOST,
             database: process.env.DB_NAME,
@@ -49,7 +53,8 @@ export class SequelizeManager implements SequelizeManagerProps {
             Space: spaceCreator(sequelize),
             Session: sessionCreator(sequelize),
             Pass: passCreator(sequelize),
-            Animal: animalCreator(sequelize)
+            Animal: animalCreator(sequelize),
+            Zoo: zooCreator(sequelize)
         }
         SequelizeManager.associate(managerProps);
         await sequelize.sync();
@@ -62,6 +67,9 @@ export class SequelizeManager implements SequelizeManagerProps {
 
         props.Space.hasMany(props.Animal);
         props.Animal.belongsTo(props.Space);
+
+        props.Zoo.hasMany(props.Session);
+        props.Session.belongsTo(props.Zoo);
     }
 
     private constructor(props: SequelizeManagerProps) {
@@ -71,5 +79,6 @@ export class SequelizeManager implements SequelizeManagerProps {
         this.Session = props.Session;
         this.Pass = props.Pass;
         this.Animal = props.Animal;
+        this.Zoo = props.Zoo;
     }
 }

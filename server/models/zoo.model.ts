@@ -1,24 +1,56 @@
+import {
+    Sequelize,
+    Optional,
+    Model,
+    DataTypes,
+    ModelCtor,
+    BelongsToSetAssociationMixin,
+    HasManyGetAssociationsMixin, HasManyAddAssociationMixin
+} from "sequelize";
+import {SessionInstance} from "./session.model";
+
 export interface IZooProps {
-    name?: string;
+    id?: string;
+    name: string;
     description: string;
     images: string;
-    capacity: string;
-    hours: string;
+    capacity: number;
+    open: boolean;
 }
 
-// SQL Table Zoo
-export class Zoo implements IZooProps {
-    name?: string;
-    description: string;
-    images: string;
-    capacity: string;
-    hours: string;
+export interface IZooCreationProps extends Optional<IZooProps, "id"> {}
 
-    constructor(props: IZooProps) {
-        this.name = props.name;
-        this.description = props.description;
-        this.images = props.images;
-        this.capacity = props.capacity;
-        this.hours = props.hours;
-    }
+export interface ZooInstance extends Model<IZooProps, IZooCreationProps>, IZooProps {
+    getSessions: HasManyGetAssociationsMixin<SessionInstance>;
+    addSession: HasManyAddAssociationMixin<SessionInstance, "id">;
+}
+
+export default function(sequelize: Sequelize): ModelCtor<ZooInstance> {
+    return sequelize.define<ZooInstance>("Zoo", {
+        id: {
+            type: DataTypes.BIGINT,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        name: {
+            type: DataTypes.STRING
+        },
+        description: {
+            type: DataTypes.STRING
+        },
+        images: {
+            type: DataTypes.STRING
+        },
+        capacity: {
+            type: DataTypes.INTEGER
+        },
+        open: {
+            type: DataTypes.BOOLEAN
+        },
+    }, {
+        freezeTableName: true,
+        underscored: true,
+        paranoid: true,
+        timestamps: true
+    });
 }

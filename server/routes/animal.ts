@@ -1,6 +1,6 @@
 import express from 'express';
 import {AnimalController} from '../controllers/animal.controller';
-import {spaceRouter} from "./space";
+import {employeeMiddleware} from "../middlewares/employee.middleware";
 
 const chalk = require('chalk');
 const animalRouter = express.Router();
@@ -8,7 +8,7 @@ const animalRouter = express.Router();
 /**
  * Get all animals created
  */
-animalRouter.get("/", async function(req, res) {
+animalRouter.get("/", employeeMiddleware, async function(req, res) {
     const animalController = await AnimalController.getInstance();
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
@@ -16,6 +16,7 @@ animalRouter.get("/", async function(req, res) {
         limit,
         offset
     });
+
     if(animals !== null) {
         res.status(200);
         res.json(animals);
@@ -27,17 +28,17 @@ animalRouter.get("/", async function(req, res) {
 /**
  * Read treatment file
  */
-animalRouter.get("/readTreatmentFile", async function(req , res) {
+animalRouter.get("/readTreatmentFile", employeeMiddleware, async function(req , res) {
     const animalController = await AnimalController.getInstance();
-    const treatment = await animalController.readTreatmentFile();
-    res.send(treatment);
+    await animalController.readTreatmentFile();
+    res.send("Look the terminal to see the file's content");
     res.status(200);
 })
 
 /**
  * Add new treatment to treatment file
  */
-animalRouter.post("/animalTreatmentFile", async function(req,res) {
+animalRouter.post("/animalTreatmentFile", employeeMiddleware, async function(req,res) {
     const id_user = req.body.id_user;
     const id_animal = req.body.id_animal;
     const medical_description = req.body.medical_description;
@@ -74,7 +75,7 @@ animalRouter.post("/animalTreatmentFile", async function(req,res) {
 /**
  * Creation of new animal
  */
-animalRouter.post("/create", async function(req, res) {
+animalRouter.post("/create", employeeMiddleware, async function(req, res) {
     const name = req.body.name;
     const species = req.body.species;
     const weight = req.body.weight;
@@ -107,7 +108,7 @@ animalRouter.post("/create", async function(req, res) {
 /**
  * Find animal by his id
  */
-animalRouter.get("/:id", async function(req,res) {
+animalRouter.get("/:id", employeeMiddleware, async function(req,res) {
     const requestedId = req.params.id;
     if(requestedId === null) {
         res.status(400).end();
@@ -126,7 +127,7 @@ animalRouter.get("/:id", async function(req,res) {
 /**
  * Modify animal created
  */
-animalRouter.put("/update/:id", async function(req,res) {
+animalRouter.put("/update/:id", employeeMiddleware, async function(req,res) {
     const animalController = await AnimalController.getInstance();
     const requestedId = req.params.id;
     if(requestedId === null) {
@@ -163,7 +164,7 @@ animalRouter.put("/update/:id", async function(req,res) {
 /**
  * Assign an animal to a Space
  */
-animalRouter.post('/assign', async function(req, res) {
+animalRouter.post('/assign', employeeMiddleware, async function(req, res) {
     const id_space = req.body.id_space;
     const id_animal = req.body.id_animal;
 

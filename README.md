@@ -35,7 +35,7 @@ notre magnifique zoo par espace.
 
 + Ouverture nocturne du zoo avec PASS Night (par un admin)
 
-+ Afin d'accéder à l'API il faudra avoir un compte, seul un employé peut faire des actions pour le parc.
++ ➖ Afin d'accéder à l'API il faudra avoir un compte, seul un employé peut faire des actions pour le parc.
 
 ✅ : Tâche terminée
 
