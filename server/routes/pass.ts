@@ -52,9 +52,10 @@ passRouter.post("/create", async function (req, res) {
     const route = req.body.route;
     const day_start_validation = req.body.day_start_validation;
     const day_end_validation = req.body.day_end_validation;
+    const space_now = req.body.space_now;
     const valid = req.body.valid;
 
-    if (name === undefined || price === undefined || route === undefined || day_start_validation === undefined || day_end_validation === undefined || valid === undefined) {
+    if (name === undefined || price === undefined || route === undefined || day_start_validation === undefined || day_end_validation === undefined || space_now === undefined || valid === undefined) {
         res.status(400).end();
         return;
     }
@@ -65,6 +66,7 @@ passRouter.post("/create", async function (req, res) {
         route,
         day_start_validation,
         day_end_validation,
+        space_now,
         valid
     });
 
@@ -102,6 +104,7 @@ passRouter.put("/update/:id", async function (req, res) {
         pass.route = req.body.route;
         pass.day_start_validation = req.body.day_start_validation;
         pass.day_end_validation = req.body.day_end_validation;
+        pass.space_now = req.body.space_now;
         pass.valid = req.body.valid;
 
 

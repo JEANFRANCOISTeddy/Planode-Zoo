@@ -23,6 +23,7 @@ export interface IPassProps {
     route: string;
     day_start_validation: string;
     day_end_validation: string;
+    space_now: string;
     valid: boolean
 }
 
@@ -49,6 +50,9 @@ export default function (sequelize: Sequelize): ModelCtor<PassInstance> {
         day_end_validation: {
             type: DataTypes.STRING
         },
+        space_now: {
+            type: DataTypes.STRING
+        },
         valid: {
             type: DataTypes.BOOLEAN,
             defaultValue: '0'
@@ -70,6 +74,7 @@ export class Pass implements IPassProps {
     route: string;
     day_start_validation: string;
     day_end_validation: string;
+    space_now: string;
     valid: boolean;
 
     constructor(props: IPassProps) {
@@ -79,6 +84,7 @@ export class Pass implements IPassProps {
         this.route = props.route;
         this.day_start_validation = props.day_start_validation;
         this.day_end_validation = props.day_end_validation;
+        this.space_now = props.space_now;
         this.valid = props.valid;
 
     }

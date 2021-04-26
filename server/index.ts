@@ -11,7 +11,7 @@ import userModel, { UserInstance } from "./models/user.model";
 import { UserController, PassController, SpaceController } from "./controllers/index";
 
 import { type } from "node:os";
-
+const chalk = require('chalk');
 var cron = require("node-cron");
 const app: Express = express();
 
@@ -19,8 +19,8 @@ app.use(bodyParser.json());
 
 buildRoutes(app);
 
-start(visit);
-
+//start(visit);
+/*
 function visit(user: UserInstance, pass: PassInstance) {
   var route = pass.route?.split('/');
   if (route === null)
@@ -56,10 +56,10 @@ function visit(user: UserInstance, pass: PassInstance) {
     });
   }
 
-}
+}*/
 
 
-
+/*
 function start(callback: { (user: UserInstance, pass: PassInstance): "Pas d'espace" | undefined; (arg0: UserInstance, arg1: PassInstance): void; }) {
   for (let i = 1; i <= 2; i++) {
     UserController.getInstance().then(function (resultUser) {
@@ -105,7 +105,7 @@ function start(callback: { (user: UserInstance, pass: PassInstance): "Pas d'espa
     });
   }
 
-}
+}*/
 
 
 
@@ -114,50 +114,97 @@ function start(callback: { (user: UserInstance, pass: PassInstance): "Pas d'espa
 
 
 
-function verification(pass: PassInstance) {
+export function verification(pass: PassInstance) {
 
 
-  const maDate = new Date("April 5, 2015 12:15:00");
-  const nHeure = maDate.getHours();
-  const nJour = maDate.getDay();
+  let maDate = new Date();
+  maDate.setFullYear(2021);
+  maDate.setMonth(4);
+  maDate.setHours(14);
+  maDate.setDate(26);
+
+
+
+
+
+  let nHeure = maDate.getHours();
+  let nJour = maDate.getDate();
+  let nJourWeek = maDate.getDay();
+  let nMonth = maDate.getMonth();
+  let nYear = maDate.getFullYear();
+  var start = pass.day_start_validation.split("/");
+  var end = pass.day_end_validation.split("/");
+
+
+
+  console.log(nJour);
+
+
   if (pass.id != undefined) {
+
 
     switch (pass.id.toString()) {
 
-      case '1':
+      case '1' || '4':
 
-        if (nHeure > 18 && nHeure < 7) {
-          console.log("It's too late, Buy th Night Pazss to get Access");
-          return console.error("tooLate");
+        if ((parseInt(start[0]) <= nJour) && (parseInt(end[0]) >= nJour) && (parseInt(start[2]) == nYear) && (parseInt(start[1]) == nMonth)) {
+
+          if (nHeure > 18 && nHeure < 7) {
+            console.log("It's too late, Buy th Night Pazss to get Access");
+            console.error("tooLate");
+            return false;
+          }
+
+          if (nJourWeek > 5) {
+            console.log("It's the Week-End, Buy the Week end Pass to get Access");
+            console.error("Week-End");
+            return false;
+          }
+
+        } else {
+
+          console.log(chalk.red("Wrong Day"));
+          return false;
         }
-        if (nJour > 5) {
-          console.log("It's the Week-End, Buy the Week end Pass to get Access");
-          return console.error("Week-End");
-        }
+
         return true;
-        break;
+
 
       case '2':
-
-        if (nHeure < 18 && nHeure > 7) {
-          console.log("It's too early !  Buy the Day Pass to get Access !");
-          return console.error("tooEarly");
-
-        }
-        if (nJour > 5) {
-          console.log("It's the Week-End, Buy the Week end Pass to get Access");
-          return console.error("Week-End");
+        if ((parseInt(start[0]) <= nJour) && (parseInt(end[0]) >= nJour) && (parseInt(start[2]) == nYear) && (parseInt(start[1]) == nMonth)) {
+          if (nHeure < 18 && nHeure > 7) {
+            console.log("It's too early !  Buy the Day Pass to get Access !");
+            console.error("tooEarly");
+            return false;
+          }
+          if (nJourWeek > 5) {
+            console.log("It's the Week-End, Buy the Week end Pass to get Access");
+            console.error("Week-End");
+            return false;
+          }
+        } else {
+          console.log(chalk.red("Wrong Day"));
+          return false;
         }
         return true;
 
       case '3':
-
-        if (nJour < 5) {
-          console.log("It's not the Week-End !  Buy a different Ticket to get Access");
-          return console.error("Not the Week-End");
+        if ((parseInt(start[0]) <= nJour) && (parseInt(end[0]) >= nJour) && (parseInt(start[2]) == nYear) && (parseInt(start[1]) == nMonth)) {
+          if (nJourWeek < 5) {
+            console.log("It's not the Week-End !  Buy a different Ticket to get Access");
+            console.error("Not the Week-End");
+            return false;
+          }
+        } else {
+          console.log(chalk.red("Wrong Day"));
+          return false;
         }
 
         return true;
+
+
+
+
 
       case '5':
         return true;
@@ -165,7 +212,7 @@ function verification(pass: PassInstance) {
       default:
         console.log(pass.id);
         console.log('Out Of expression');
-        break;
+        return false;
 
 
     }
@@ -185,18 +232,18 @@ function verification(pass: PassInstance) {
 
 
 
-cron.schedule('*/20 * * * * * ', () => {
+cron.schedule('*/30 * * * * * ', () => {
   Quoti();
 });
 
-cron.schedule('*/30 2 * * * *', () => {
+cron.schedule('*/2 * * * *', () => {
   Hebdo()
 });
 //chron.add(10, Quoti()); // called every 10 seconds / Quoti
 //chron.add(150, Hebdo()); // called every 100 seconds / Hebdo
 
 async function Quoti() {
-
+  console.log(chalk.blue("NEW INFO QUOTI"))
   for (let j = 0; j < 4; j++) {
     SpaceController.getInstance().then(function (resultSpace) {
       const space = resultSpace.findById({
@@ -205,11 +252,13 @@ async function Quoti() {
       });
       space.then(async function (res) {
         if (res != undefined) {
-          console.log("Info Quotidienne sur l'espace " + res.name + " qui a fais " + res.infoHebdo + " Visite")
+
+          console.log(chalk.yellow("Info Quotidienne sur l'espace " + res.name + " qui a fais " + res.infoQuoti + " Visite"));
+
 
           res.infoQuoti = 0;
-          await res.save();
-          console.log("AAAAAAAAAAAAAH");
+          res.save();
+          console.log("----------------------");
         }
 
       });
@@ -221,18 +270,20 @@ async function Quoti() {
 
 
 function Hebdo() {
-
+  console.log(chalk.blue("NEW INFO Hebdo"))
   for (let j = 0; j < 4; j++) {
     SpaceController.getInstance().then(function (resultSpace) {
       const space = resultSpace.findById({
         where: { id: j }
 
       });
-      space.then(function (res) {
+      space.then(async function (res) {
         if (res != undefined) {
+          console.log(chalk.blue("NEW INFO HEBDO"))
           console.log(" Info Hebdomadaire sur l'espace " + res.name + " qui a fais " + res.infoHebdo + " Visite")
           res.infoHebdo = 0;
-          res.save();
+          await res.save();
+
         }
 
       });
