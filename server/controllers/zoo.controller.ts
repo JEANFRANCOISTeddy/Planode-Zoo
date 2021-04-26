@@ -151,10 +151,4 @@ export class ZooController {
             ...options
         })
     }
-
-    public async isOpen(): Promise<boolean> {
-
-
-        return false;
-    }
 }
