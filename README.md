@@ -18,25 +18,25 @@ impérativement y avoir un carnet de suivi de traitements des animaux édité un
 + ➖ Gestion hebdomadaire des employés : le zoo ne peut pas ouvrir s'il n'y a PAS au moins 1 personne à
 l'accueil, 1 soigneur, 1 agent d’entretien ainsi qu’ 1 vendeur.
 
-+ Gestion des billets dans le zoo: Un billet donne accès à certains espaces.
++ ✅ Gestion des billets dans le zoo: Un billet donne accès à certains espaces.
 
- - Il y a différent type de PASS. (PASS journée, PASS Week-end, PASS Annuel, PASS 1daymonth(un jour
+ -  ✅ Il y a différent type de PASS. (PASS journée, PASS Week-end, PASS Annuel, PASS 1daymonth(un jour
 par mois toute l'année)
 
- - Contrôle des billets: Avant chaque espace, l’API devra valider ou non si l’utilisateur peut accéder à l’
+ -  ✅ Contrôle des billets: Avant chaque espace, l’API devra valider ou non si l’utilisateur peut accéder à l’
 espace
 
- - PASS Escape game: Certains billet donneront accès aux espaces selon un ordre prédéfini (exemple:
+ - ➖ PASS Escape game: Certains billet donneront accès aux espaces selon un ordre prédéfini (exemple:
 tigre/lion/singe)
 
-+ Des statistiques quotidiennes et hebdomadaires devront permette de mettre en évidence l’affluence de
++ ✅ Des statistiques quotidiennes et hebdomadaires devront permette de mettre en évidence l’affluence de
 notre magnifique zoo par espace.
 
-+ Taux de fréquentation du zoo et des espaces en temps reel
++ ✅ Taux de fréquentation du zoo et des espaces en temps reel
 
-+ Ouverture nocturne du zoo avec PASS Night (par un admin)
++ ✅ Ouverture nocturne du zoo avec PASS Night (par un admin)
 
-+ ➖ Afin d'accéder à l'API il faudra avoir un compte, seul un employé peut faire des actions pour le parc.
++ ✅ Afin d'accéder à l'API il faudra avoir un compte, seul un employé peut faire des actions pour le parc.
 
 ✅ : Tâche terminée
 
