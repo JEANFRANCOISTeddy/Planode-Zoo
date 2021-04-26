@@ -1,53 +1,77 @@
 import express from 'express';
-import {PassController} from '../controllers/pass.controller';
-import {DatabaseUtils} from "../config/db.config";
+import { PassController } from '../controllers/pass.controller';
+import { employeeMiddleware } from '../middlewares/employee.middleware';
 
-const router = express.Router();
 
-router.get("/", async function(req, res) {
-    const connection = await DatabaseUtils.getConnection();
-    const passController = new PassController(connection);
+const passRouter = express.Router();
+
+passRouter.get("/", async function (req, res) {
+    const passController = await PassController.getInstance();
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
-    const passList = await passController.getAll({
+    const passs = await passController.findAll({
         limit,
         offset
     });
-    res.json(passList);
-});
-router.get("/:id", async function(req, res) {
-    const connection = await DatabaseUtils.getConnection();
-    const passController = new PassController(connection);
-    const pass = await passController.getById(req.params.id);
-    if(pass === null) {
-        res.status(404).end();
+    if (passs !== null) {
+        res.status(200);
+        res.json(passs);
     } else {
-        res.json(pass);
+        res.status(409).end();
     }
 });
 
-router.post("/", async function(req, res) {
+
+
+
+
+passRouter.get("/:id", async function (req, res) {
+    const requestedId = req.params.id;
+    if (requestedId === null) {
+        res.status(400).end();
+        return;
+    }
+    const passController = await PassController.getInstance();
+    const pass = await passController.findById({
+        where: { id: requestedId }
+    });
+    if (pass !== null) {
+        res.status(200);
+        res.json(pass);
+    } else {
+        res.status(409).end();
+    }
+});
+
+
+
+
+
+passRouter.post("/create", employeeMiddleware, async function (req, res) {
     const name = req.body.name;
     const price = req.body.price;
     const route = req.body.route;
     const day_start_validation = req.body.day_start_validation;
     const day_end_validation = req.body.day_end_validation;
-    if(name === undefined || price === undefined || route === undefined || day_start_validation === undefined || day_end_validation === undefined ) {
+    const space_now = req.body.space_now;
+    const valid = req.body.valid;
+
+    if (name === undefined || price === undefined || route === undefined || day_start_validation === undefined || day_end_validation === undefined || space_now === undefined || valid === undefined) {
         res.status(400).end();
         return;
     }
-
-    const connection = await DatabaseUtils.getConnection();
-    const passController = new PassController(connection);
-    const pass = await passController.create({
+    const spaceController = await PassController.getInstance();
+    const pass = await spaceController.create({
         name,
         price,
         route,
         day_start_validation,
-        day_end_validation
+        day_end_validation,
+        space_now,
+        valid
     });
 
-    if(pass === null) {
+    if (pass === null) {
         res.status(500).end();
     } else {
         res.status(201);
@@ -56,42 +80,64 @@ router.post("/", async function(req, res) {
 
 });
 
-router.put("/:id", async function(req, res) {
-    const id = req.body.id;
-    const name = req.body.name;
-    const price = req.body.price;
-    const route = req.body.route;
-    const day_start_validation = req.body.day_start_validation;
-    const day_end_validation = req.body.day_end_validation;
+passRouter.put("/update/:id", employeeMiddleware, async function (req, res) {
+    const passController = await PassController.getInstance();
+    const requestedId = req.params.id;
+    if (requestedId === null) {
+        res.status(400).end();
+        return;
+    }
+    /*
+        const name = req.body.name;
+        const price = req.body.price;
+        const route = req.body.route;
+        const day_start_validation = req.body.day_start_validation;
+        const day_end_validation = req.body.day_end_validation;*/
 
-    const connection = await DatabaseUtils.getConnection();
-    const passController = new PassController(connection);
-    const pass = await passController.update({
-        id,
-        name,
-        price,
-        route,
-        day_start_validation,
-        day_end_validation
+
+    const pass = await passController.findById({
+        where: { id: requestedId }
     });
-    if(pass === null){
-        res.status(404);
-    }else{
-        res.json(pass);
-    }
-});
 
-router.delete("/id", async function(req, res) {
-    const connection = await DatabaseUtils.getConnection();
-    const passController = new PassController(connection);
-    const success = await passController.removeById(req.params.id);
-    if(success) {
-        res.status(204).end();
+    if (pass !== null) {
+        pass.name = req.body.name;
+        pass.price = req.body.price;
+        pass.route = req.body.route;
+        pass.day_start_validation = req.body.day_start_validation;
+        pass.day_end_validation = req.body.day_end_validation;
+        pass.space_now = req.body.space_now;
+        pass.valid = req.body.valid;
+
+
+        const spaceSaved = await pass.save();
+        if (spaceSaved !== null) {
+            res.status(200);
+            res.json(pass);
+        }
     } else {
-        res.status(404).end();
+        res.status(409).end();
     }
 });
 
+passRouter.delete("/delete/:id", employeeMiddleware, async function (req, res) {
+    const requestedId = req.params.id;
+    if (requestedId === null) {
+        res.status(400).end();
+        return;
+    }
+    const spaceController = await PassController.getInstance();
+    const space = await spaceController.deleteById({
+        where: { id: requestedId },
+        force: true
+    });
+    if (space !== null) {
+        res.status(200);
+        res.json(space);
+    } else {
+        res.status(409).end();
+    }
+});
 
-
-export default router;
+export {
+    passRouter
+};

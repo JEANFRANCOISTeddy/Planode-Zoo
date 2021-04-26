@@ -18,6 +18,7 @@ export interface IUserProps {
     password: string;
     admin: boolean;
     role: string; // receptionist || caretaker || maintenance || seller || visitor
+    id_pass: number;
 }
 
 export interface IUserCreationProps extends Optional<IUserProps, "id"> {}
@@ -55,6 +56,10 @@ export default function(sequelize: Sequelize): ModelCtor<UserInstance> {
         role: {
             type: DataTypes.STRING
         },
+        id_pass: {
+            type: DataTypes.BIGINT    
+        }
+
     }, {
         freezeTableName: true,
         underscored: true,

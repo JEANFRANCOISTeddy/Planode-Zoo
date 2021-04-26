@@ -9,6 +9,7 @@ import {compare, hash} from "bcrypt";
 import {ModelStatic, UpdateOptions} from "sequelize/types/lib/model";
 import {readFile, appendFile} from "fs";
 import {UserController} from "./user.controller";
+import chalk from "chalk";
 
 export interface GetAllOptions {
     limit?: number;
@@ -125,7 +126,9 @@ export class AnimalController {
                 console.error(err);
             }
             const txt = data.toString('utf-8');
-            console.error(txt);
+            console.log(chalk.blue("--------------TREATMENT BOOK--------------"));
+            console.log(chalk.blue(txt));
+            console.log("----------------------");
         });
     }
 

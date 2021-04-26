@@ -14,7 +14,7 @@ export interface SessionProps {
     token: string;
 }
 
-export interface SessionCreationProps extends Optional<SessionProps, "id"> {}
+export interface SessionCreationProps extends Optional<SessionProps, "id"> { }
 
 export interface SessionInstance extends Model<SessionProps, SessionCreationProps>, SessionProps {
     setUser: BelongsToSetAssociationMixin<UserInstance, "id">;
@@ -24,7 +24,7 @@ export interface SessionInstance extends Model<SessionProps, SessionCreationProp
     getZoo: BelongsToGetAssociationMixin<ZooInstance>;
 }
 
-export default function(sequelize: Sequelize): ModelCtor<SessionInstance> {
+export default function (sequelize: Sequelize): ModelCtor<SessionInstance> {
     return sequelize.define<SessionInstance>("Session", {
         id: {
             type: DataTypes.BIGINT,

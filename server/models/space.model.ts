@@ -9,6 +9,10 @@ import {
 } from "sequelize";
 import {AnimalInstance} from "./animal.model";
 
+export interface ISpaceCreationProps extends Optional<ISpaceProps, "id"> {}
+
+export interface SpaceInstance extends Model<ISpaceProps, ISpaceCreationProps>, ISpaceProps {}
+
 export interface ISpaceProps {
     id?: string;
     name: string;
@@ -21,6 +25,8 @@ export interface ISpaceProps {
     handicapped: boolean; // true --> space has handicapped access
     status: boolean; // true --> maintenance | false --> operational
     last_space_description:string; 
+    infoHebdo: number;
+    infoQuoti: number;
 }
 
 export interface ISpaceCreationProps extends Optional<ISpaceProps, "id"> {}
@@ -66,6 +72,14 @@ export default function(sequelize: Sequelize): ModelCtor<SpaceInstance> {
         },
         last_space_description: {
             type: DataTypes.STRING
+        },
+        infoHebdo: {
+            type: DataTypes.BIGINT,
+            defaultValue: '0'
+        },
+        infoQuoti: {
+            type: DataTypes.BIGINT,
+            defaultValue: '0'        
         }
     }, {
         freezeTableName: true,

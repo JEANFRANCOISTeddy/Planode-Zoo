@@ -6,17 +6,15 @@ import passCreator, {PassInstance} from "./pass.model";
 import animalCreator, {AnimalInstance} from "./animal.model";
 import zooCreator, {ZooInstance} from "./zoo.model";
 import {Dialect} from "sequelize/types/lib/sequelize";
-
 export interface SequelizeManagerProps {
     sequelize: Sequelize;
     User: ModelCtor<UserInstance>;
     Space: ModelCtor<SpaceInstance>;
-    Session: ModelCtor<SessionInstance>;
     Pass: ModelCtor<PassInstance>;
+    Session: ModelCtor<SessionInstance>;
     Animal: ModelCtor<AnimalInstance>;
     Zoo: ModelCtor<ZooInstance>;
 }
-
 export class SequelizeManager implements SequelizeManagerProps {
 
     private static instance?: SequelizeManager
@@ -24,13 +22,13 @@ export class SequelizeManager implements SequelizeManagerProps {
     sequelize: Sequelize;
     User: ModelCtor<UserInstance>;
     Space: ModelCtor<SpaceInstance>;
-    Session: ModelCtor<SessionInstance>;
     Pass: ModelCtor<PassInstance>;
+    Session: ModelCtor<SessionInstance>;
     Animal: ModelCtor<AnimalInstance>;
     Zoo: ModelCtor<ZooInstance>;
 
     public static async getInstance(): Promise<SequelizeManager> {
-        if(SequelizeManager.instance === undefined) {
+        if (SequelizeManager.instance === undefined) {
             SequelizeManager.instance = await SequelizeManager.initialize();
         }
         return SequelizeManager.instance;
@@ -76,9 +74,11 @@ export class SequelizeManager implements SequelizeManagerProps {
         this.sequelize = props.sequelize;
         this.User = props.User;
         this.Space = props.Space;
+        this.Pass = props.Pass;
         this.Session = props.Session;
         this.Pass = props.Pass;
         this.Animal = props.Animal;
         this.Zoo = props.Zoo;
     }
 }
+
